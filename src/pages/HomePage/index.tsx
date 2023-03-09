@@ -1,10 +1,12 @@
+import { Text, View, StyleSheet } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useTheme } from 'src/hooks/useTheme';
 
-export default function App() {
+export default function HomePage() {
+  const { currentTheme } = useTheme();
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Text>Home</Text>
       <StatusBar style="auto" />
     </View>
   );
