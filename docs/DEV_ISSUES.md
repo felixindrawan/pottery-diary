@@ -1,7 +1,7 @@
 # Development Issues
 Documented development issues I've ran into while developing the app
 
-1. `Unable to resolve "@/pages/HomePage" from "App.tsx"`
+### `Unable to resolve "@/pages/HomePage" from "App.tsx"`
 Using the `tsconfig.json` as follows
 ```bash
 {
@@ -35,3 +35,9 @@ and add `package.json` under `/src`
   "name": "src"
 }
 ```
+
+### `React/TypeScript error: Operator '<' cannot be applied to types 'boolean' and 'RegExp'-Reactjs`
+Solutions: Not too clear what fixed it to be honest but
+1. `yarn add -D @types/node`
+2. Add `"jsx": "react-jsx",` on `tsconfig` under `compilerOptions`
+3. Restart VsCode

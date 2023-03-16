@@ -32,9 +32,9 @@ export const useAsyncStorage = <T>(
     if (typeof window !== 'undefined') {
       try {
         if (newValue !== 'undefined' && newValue !== null) {
-          clearAsyncStorageItem();
-        } else {
           await AsyncStorage.setItem(key, JSON.stringify(newValue ?? null));
+        } else {
+          clearAsyncStorageItem();
         }
       } catch (e) {
         error(`Set AsyncStorage Error: ${e.toString()}`);
@@ -42,7 +42,9 @@ export const useAsyncStorage = <T>(
         setUpdated(false);
         getAsyncStorageItem();
       }
-    } else return initialValue;
+    } else {
+      return initialValue;
+    }
   }, []);
 
   useEffect(() => {
