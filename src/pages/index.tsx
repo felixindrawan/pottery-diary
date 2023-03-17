@@ -32,7 +32,7 @@ export default function Pages() {
               tabBarIcon: ({ focused }) => <Icon name={icon} focused={focused} />,
               tabBarAccessibilityLabel: SCREEN_NAME[name],
               tabBarShowLabel: false,
-              tabBarStyle: style,
+              tabBarStyle: { ...style, height: 54 },
             }}
           />
         ))}
