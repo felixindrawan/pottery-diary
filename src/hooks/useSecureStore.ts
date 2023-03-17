@@ -1,8 +1,8 @@
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store';
+import { Dispatch, SetStateAction, useCallback, useState, useEffect } from 'react';
 import { error } from 'src/utils';
 
-export const useAsyncStorage = <T>(
+export const useSecureStore = <T>(
   key: string,
   initialValue?: T,
 ): [T, Dispatch<SetStateAction<T>>, () => void] => {
@@ -11,36 +11,36 @@ export const useAsyncStorage = <T>(
 
   const clearAsyncStorageItem = async () => {
     setStorageValue(null);
-    await AsyncStorage.removeItem(key);
+    await SecureStore.deleteItemAsync(key);
   };
-  const getAsyncStorageItem = async () => {
+  const getSecureStoreItem = async () => {
     if (typeof window !== 'undefined') {
       let value = initialValue;
       try {
-        const storageItem = (await AsyncStorage.getItem(key)) as T;
+        const storageItem = (await SecureStore.getItemAsync(key)) as T;
         if (storageItem !== 'undefined' && storageItem !== null)
           value = JSON.parse(storageItem as string);
       } catch (e) {
-        error(`Get AsyncStorage Error: ${e.toString()}`);
+        error(`Get SecureStore Error: ${e.toString()}`);
       } finally {
         setStorageValue(value);
         setUpdated(true);
       }
     } else setStorageValue(initialValue);
   };
-  const setAsyncStorageItem = useCallback(async (newValue: T) => {
+  const setSecureStoreItem = useCallback(async (newValue: T) => {
     if (typeof window !== 'undefined') {
       try {
         if (newValue !== 'undefined' && newValue !== null) {
-          await AsyncStorage.setItem(key, JSON.stringify(newValue ?? null));
+          await SecureStore.setItemAsync(key, JSON.stringify(newValue ?? null));
         } else {
           clearAsyncStorageItem();
         }
       } catch (e) {
-        error(`Set AsyncStorage Error: ${e.toString()}`);
+        error(`Set SecureStore Error: ${e.toString()}`);
       } finally {
         setUpdated(false);
-        getAsyncStorageItem();
+        getSecureStoreItem();
       }
     } else {
       return initialValue;
@@ -48,8 +48,8 @@ export const useAsyncStorage = <T>(
   }, []);
 
   useEffect(() => {
-    getAsyncStorageItem();
+    getSecureStoreItem();
   }, [updated]);
 
-  return [storageValue, setAsyncStorageItem, clearAsyncStorageItem];
+  return [storageValue, setSecureStoreItem, clearAsyncStorageItem];
 };

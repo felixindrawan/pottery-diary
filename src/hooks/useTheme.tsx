@@ -1,6 +1,6 @@
-import { createContext, useCallback, useContext, useState } from 'react';
-import { useAsyncStorage } from 'src/hooks/useAsyncStorage';
+import { createContext, useCallback, useContext } from 'react';
 import { Color, COLORS } from 'src/utils/styles';
+import { useSecureStore } from './useSecureStore';
 
 export enum Mode {
   Light = 'light',
@@ -23,8 +23,8 @@ const ThemeContext = createContext<ThemeContextProps>({
 });
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useAsyncStorage('theme', Mode.Dark);
-  const [primaryColor, setPrimaryColor] = useAsyncStorage(
+  const [theme, setTheme] = useSecureStore('theme', Mode.Dark);
+  const [primaryColor, setPrimaryColor] = useSecureStore(
     'primaryColor',
     COLORS[Color.PRIMARY_MAIN],
   );
