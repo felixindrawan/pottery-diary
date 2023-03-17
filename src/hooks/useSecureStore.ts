@@ -9,7 +9,7 @@ export const useSecureStore = <T>(
   const [storageValue, setStorageValue] = useState<T>(initialValue);
   const [updated, setUpdated] = useState<Boolean>(false);
 
-  const clearAsyncStorageItem = async () => {
+  const clearSecureStoreItem = async () => {
     setStorageValue(null);
     await SecureStore.deleteItemAsync(key);
   };
@@ -34,7 +34,7 @@ export const useSecureStore = <T>(
         if (newValue !== 'undefined' && newValue !== null) {
           await SecureStore.setItemAsync(key, JSON.stringify(newValue ?? null));
         } else {
-          clearAsyncStorageItem();
+          clearSecureStoreItem();
         }
       } catch (e) {
         error(`Set SecureStore Error: ${e.toString()}`);
@@ -51,5 +51,5 @@ export const useSecureStore = <T>(
     getSecureStoreItem();
   }, [updated]);
 
-  return [storageValue, setSecureStoreItem, clearAsyncStorageItem];
+  return [storageValue, setSecureStoreItem, clearSecureStoreItem];
 };
