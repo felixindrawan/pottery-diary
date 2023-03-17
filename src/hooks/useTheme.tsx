@@ -18,18 +18,18 @@ interface ThemeContextProps {
 }
 
 const ThemeContext = createContext<ThemeContextProps>({
-  currentTheme: Mode.Light,
+  currentTheme: Mode.Dark,
   currentPrimaryColor: COLORS[Color.PRIMARY_MAIN],
 });
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useAsyncStorage('theme', Mode.Light);
+  const [theme, setTheme] = useAsyncStorage('theme', Mode.Dark);
   const [primaryColor, setPrimaryColor] = useAsyncStorage(
     'primaryColor',
     COLORS[Color.PRIMARY_MAIN],
   );
   const onThemeUpdate = useCallback(
-    (darkMode: boolean) => setTheme(darkMode ? Mode.Dark : Mode.Light),
+    (lightMode: boolean) => setTheme(lightMode ? Mode.Light : Mode.Dark),
     [],
   );
   const onPrimaryColorUpdate = useCallback(
@@ -39,7 +39,7 @@ export function ThemeProvider({ children }) {
   return (
     <ThemeContext.Provider
       value={{
-        currentTheme: (theme ?? Mode.Light) as Mode,
+        currentTheme: (theme ?? Mode.Dark) as Mode,
         onThemeUpdate,
         currentPrimaryColor: primaryColor ?? COLORS[Color.PRIMARY_MAIN],
         onPrimaryColorUpdate,
@@ -52,4 +52,12 @@ export function ThemeProvider({ children }) {
 
 export function useTheme() {
   return useContext(ThemeContext);
+}
+
+export function getColor(mode: Mode) {
+  return mode === Mode.Light ? COLORS[Color.NEUTRAL_100] : COLORS[Color.NEUTRAL_10];
+}
+
+export function getBGColor(mode: Mode) {
+  return mode === Mode.Light ? COLORS[Color.NEUTRAL_10] : COLORS[Color.NEUTRAL_100];
 }

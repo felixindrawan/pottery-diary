@@ -37,7 +37,11 @@ and add `package.json` under `/src`
 ```
 
 ### `React/TypeScript error: Operator '<' cannot be applied to types 'boolean' and 'RegExp'-Reactjs`
+This requires us to somehow need to add `import React from 'react'` line
 Solutions: Not too clear what fixed it to be honest but
 1. `yarn add -D @types/node`
 2. Add `"jsx": "react-jsx",` on `tsconfig` under `compilerOptions`
 3. Restart VsCode
+
+### `While resolving module `src/components/View`, the Haste package `src` was found. However the module `components/View` could not be found within the package. Indeed, none of these files exist:`
+Solution: `yarn start`

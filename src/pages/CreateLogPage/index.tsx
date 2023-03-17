@@ -4,12 +4,12 @@ import { Mode, useTheme } from 'src/hooks/useTheme';
 import Text from 'src/components/Text';
 import View from 'src/components/View';
 
-export default function HomePage() {
+export default function CreateLogPage() {
   const { currentTheme, onThemeUpdate } = useTheme();
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <Text>Home</Text>
+      <Text>Create Log</Text>
       <Text>
         Light Mode: <Switch onValueChange={onThemeUpdate} value={currentTheme === Mode.Light} />
       </Text>
