@@ -1,21 +1,21 @@
-import { ReactNode, Fragment } from 'react';
-import View from 'src/components/View';
+import { ReactNode } from 'react';
 import Text from 'src/components/Text';
-import { Size } from 'src/utils/styles';
+import { Color, COLORS, Size } from 'src/utils/styles';
 
-interface PageHeaderProps {
-  onBack?: ReactNode | boolean;
+interface HeaderTitleProps {
   title: ReactNode;
   subtitle?: ReactNode;
-  extra?: ReactNode;
 }
 
-export function PageHeader({ onBack, title, subtitle, extra }: PageHeaderProps) {
+export function HeaderTitle({ title, subtitle }: HeaderTitleProps) {
   return (
-    <Fragment>
-      <Text size={Size.XL} style={{ fontWeight: 'bold' }}>
-        {title}
-      </Text>
-    </Fragment>
+    <Text size={Size.XL} style={{ fontWeight: 'bold' }}>
+      {title}{' '}
+      {subtitle && (
+        <Text size={Size.LG} style={{ fontWeight: 'bold', color: COLORS[Color.NEUTRAL_50] }}>
+          {subtitle}
+        </Text>
+      )}
+    </Text>
   );
 }

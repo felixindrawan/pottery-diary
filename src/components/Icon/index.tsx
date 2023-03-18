@@ -1,21 +1,20 @@
 import { getColor, useTheme } from 'src/hooks/useTheme';
-import { Color, COLORS } from 'src/utils/styles';
 import { MaterialIcons } from '@expo/vector-icons';
 
 interface IconProps {
-  name: any;
+  name: any; // TODO: Set as any bc of MaterialIcons name
   size?: number;
   color?: string;
-  focused?: boolean;
+  isActive?: boolean;
 }
 
-export function Icon({ name, size = 30, color, focused = false }: IconProps) {
+export function Icon({ name, size = 30, color, isActive = false }: IconProps) {
   const { currentTheme, currentPrimaryColor } = useTheme();
   return (
     <MaterialIcons
       name={name}
       size={size}
-      color={color || focused ? currentPrimaryColor : getColor(currentTheme)}
+      color={color || isActive ? currentPrimaryColor : getColor(currentTheme)}
     />
   );
 }

@@ -17,8 +17,13 @@
   ```
 
 ## Contribute
+Creating a feature/fix
 1. Create a new branch from latest `dev` branch for a feature/fix
 2. Create a PR targetting `dev` following [Conventional Commits](https://www.conventionalcommits.org/) specification when writing commit messages
+
+Importing icons
+1. Use https://icons.expo.fyi/ and filter through `MaterialIcons`
+2. Utilize `src/components/Icon` component 
 
 ## Format
 ```bash
