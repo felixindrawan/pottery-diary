@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import BottomTabNavigation from 'src/components/Navigation/BottomTab';
-import CreateLogPage from 'src/pages/CreateLogPage';
+import CreateLogStack from 'src/pages/CreateLogPage';
 import { HeaderTitle } from 'src/components/PageHeader';
 import { getBGColor, getColor, useTheme } from 'src/hooks/useTheme';
 import SaveButton from 'src/pages/CreateLogPage/SaveButton';
@@ -62,7 +62,7 @@ const STACKS: StackProps[] = [
   },
   {
     name: Stack.CREATE_LOG,
-    component: CreateLogPage,
+    component: CreateLogStack,
     extra: SaveButton,
   },
 ];
