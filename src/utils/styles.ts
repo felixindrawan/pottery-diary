@@ -18,6 +18,12 @@ export const COLORS: Record<Color, string> = {
   [Color.RED]: '#cc0000',
 };
 
+// https://stackoverflow.com/questions/19799777
+export function getHexToAlpha(color: string, opacity: number) {
+  const _opacity = Math.round(Math.min(Math.max(opacity || 1, 0), 1) * 255);
+  return color + _opacity.toString(16).toUpperCase();
+}
+
 export enum Size {
   XL = 'xl',
   LG = 'lg',
@@ -33,8 +39,4 @@ export const FONT_SIZES: Record<Size, number> = {
   [Size.XS]: 10,
 };
 
-// https://stackoverflow.com/questions/19799777
-export function getHexToAlpha(color: string, opacity: number) {
-  const _opacity = Math.round(Math.min(Math.max(opacity || 1, 0), 1) * 255);
-  return color + _opacity.toString(16).toUpperCase();
-}
+export const RADIUS = 10; // Global border radius

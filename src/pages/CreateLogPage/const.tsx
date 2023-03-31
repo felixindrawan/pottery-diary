@@ -27,6 +27,7 @@ export enum LogField {
   UNDERGLAZE = 'underglaze',
   GLAZE = 'glaze',
   TAGS = 'tags',
+  DIMENSIONS = 'dimensions',
   WEIGHT = 'weight',
   HEIGHT = 'height',
   LENGTH = 'length',
@@ -37,12 +38,13 @@ export type LogFieldTypes = {
   [LogField.TYPE]: LogType;
   [LogField.NUMBER]?: string;
   [LogField.TITLE]?: string;
-  [LogField.STAGE]: ThrownStage; //TODO Add Handbuild stage
+  [LogField.STAGE]: Record<ThrownStage, ThrownStageProperties>; //TODO Add Handbuild stage
   [LogField.CLAY]?: string[];
   [LogField.UNDERGLAZE]?: string[];
   [LogField.GLAZE]?: string[];
   [LogField.TAGS]?: string[];
   [LogField.WEIGHT]?: number;
+  [LogField.DIMENSIONS]?: string;
   [LogField.HEIGHT]?: number;
   [LogField.LENGTH]?: number;
   [LogField.WIDTH]?: number;
@@ -58,6 +60,7 @@ export const LOG_FIELD_TITLES: Record<LogField, string> = {
   [LogField.GLAZE]: 'Glaze',
   [LogField.TAGS]: 'Tags',
   [LogField.WEIGHT]: 'Weight',
+  [LogField.DIMENSIONS]: 'Dimensions',
   [LogField.HEIGHT]: 'H',
   [LogField.LENGTH]: 'L',
   [LogField.WIDTH]: 'W',
@@ -70,6 +73,11 @@ export enum ThrownStage {
   BISQUED = 'bisqued',
   GLAZED = 'glazed',
   FINISHED = 'finished',
+}
+
+export interface ThrownStageProperties {
+  notes?: string;
+  date: string;
 }
 
 export const THROWN_ORDER: Record<ThrownStage, number> = {
