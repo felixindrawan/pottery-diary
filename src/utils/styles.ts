@@ -3,6 +3,7 @@ export enum Color {
   NEUTRAL_50 = 'neutral50',
   NEUTRAL_100 = 'neutral100',
   PRIMARY_MAIN = 'primaryMain',
+  RED = 'red',
 }
 export const COLORS: Record<Color, string> = {
   // Neutral Colors
@@ -12,7 +13,16 @@ export const COLORS: Record<Color, string> = {
 
   // Primary Colors
   [Color.PRIMARY_MAIN]: '#9777d7',
+
+  // Errors
+  [Color.RED]: '#cc0000',
 };
+
+// https://stackoverflow.com/questions/19799777
+export function getHexToAlpha(color: string, opacity: number) {
+  const _opacity = Math.round(Math.min(Math.max(opacity || 1, 0), 1) * 255);
+  return color + _opacity.toString(16).toUpperCase();
+}
 
 export enum Size {
   XL = 'xl',
@@ -28,3 +38,5 @@ export const FONT_SIZES: Record<Size, number> = {
   [Size.SM]: 13,
   [Size.XS]: 10,
 };
+
+export const RADIUS = 10; // Global border radius
