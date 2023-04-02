@@ -1,45 +1,26 @@
-import { useCallback } from 'react';
-import moment from 'moment';
-import { useForm } from 'react-hook-form';
-import MaterialTopTab from 'src/components/Navigation/MaterialTopTab';
-import {
-  LogField,
-  LogFieldTypes,
-  LogTab,
-  LOG_TAB_TITLES,
-  ThrownStage,
-} from 'src/pages/CreateLogPage/const';
-import { InformationTab } from './InformationTab';
-import { TimelineTab } from './TimelineTab';
+import { StyleSheet, Switch } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { Mode, useTheme } from 'src/hooks/useTheme';
+import Text from 'src/components/Text';
+import View from 'src/components/View';
 
-export default function CreateLogStack() {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LogFieldTypes>({
-    // TODO: Stage Profile
-    defaultValues: {
-      [LogField.TITLE]: 'Untitled',
-      [LogField.STAGE]: {
-        [ThrownStage.THROWN]: {
-          date: moment(),
-        },
-      },
-    },
-  });
-  const Timeline = useCallback(() => <TimelineTab control={control} errors={errors} />, []);
-  const Information = useCallback(() => <InformationTab control={control} errors={errors} />, []);
-  const LOG_TABS = [
-    {
-      name: LogTab.TIMELINE,
-      component: Timeline,
-    },
-    {
-      name: LogTab.INFORMATION,
-      component: Information,
-    },
-  ];
-
-  return <MaterialTopTab TABS={LOG_TABS} LABELS={LOG_TAB_TITLES} />;
+export default function CreateLogPage() {
+  const { currentTheme, onThemeUpdate } = useTheme();
+  return (
+    <View style={styles.container}>
+      <StatusBar style="auto" />
+      <Text>Create Log</Text>
+      <Text>
+        Light Mode: <Switch onValueChange={onThemeUpdate} value={currentTheme === Mode.Light} />
+      </Text>
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
