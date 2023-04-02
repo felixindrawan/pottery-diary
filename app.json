@@ -1,7 +1,8 @@
 {
   "expo": {
     "name": "PotteryDiary",
-    "slug": "PotteryDiary",
+    "owner": "potterydiary",
+    "slug": "pottery-diary",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,20 +12,26 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.potterydiary.potterydiary"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.potterydiary.potterydiary"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": ["sentry-expo"],
+    "plugins": [
+      "sentry-expo"
+    ],
     "hooks": {
       "postPublish": [
         {
@@ -35,6 +42,17 @@
           }
         }
       ]
+    },
+    "extra": {
+      "eas": {
+        "projectId": "820b16f0-09d8-4e3f-a616-9091f304831b"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/820b16f0-09d8-4e3f-a616-9091f304831b"
     }
   }
 }
