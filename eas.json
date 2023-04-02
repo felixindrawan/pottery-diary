@@ -6,15 +6,25 @@
     "development": {
       "developmentClient": true,
       "distribution": "internal",
-      "channel": "development"
+      "channel": "development",
+      "env": {
+        "APP_ENV": "dev"
+      }
+
     },
-    "preview": {
+    "staging": {
       "distribution": "internal",
-      "channel": "staging"
+      "channel": "staging",
+      "env": {
+        "APP_ENV": "stage"
+      }
     },
     "production": {
       "channel": "production",
-      "developmentClient": false
+      "developmentClient": false,
+      "env": {
+        "APP_ENV": "prod"
+      }
     }
   }
 }

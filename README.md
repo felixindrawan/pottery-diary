@@ -62,5 +62,9 @@ Proper usage should be https://docs.expo.dev/eas-update/eas-update-and-eas-cli/ 
   2. Link the branch to the channel
    - `eas channel:edit <development|staging|production> --branch branch-name`
 
-
-
+## Environment
+Different options to retrieve environemnt vars
+  - add secrets in expo
+    - can use @env to retrieve the values
+  - add it to the app.config.ts
+    - Constants.expoConfig.extra.variable to retrieve
