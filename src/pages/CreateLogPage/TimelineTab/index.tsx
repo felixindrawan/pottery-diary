@@ -23,7 +23,6 @@ export function TimelineTab({ control, errors }: TimelineTabProps) {
   const [stage, setStage] = useState<ThrownStages>({
     [ThrownStage.THROWN]: {
       date: moment(),
-      notes: 'test',
     },
   });
   return (
@@ -93,26 +92,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-// let newStage: ThrownStage;
-// switch (currentStage[0]) {
-//   case ThrownStage.TODO:
-//     newStage = ThrownStage.THROWN;
-//     break;
-//   case ThrownStage.THROWN:
-//     newStage = ThrownStage.TRIMMED;
-//     break;
-//   case ThrownStage.TRIMMED:
-//     newStage = ThrownStage.BISQUED;
-//     break;
-//   case ThrownStage.BISQUED:
-//     newStage = ThrownStage.GLAZED;
-//     break;
-//   case ThrownStage.GLAZED:
-//     newStage = ThrownStage.FINISHED;
-//     break;
-//   case ThrownStage.FINISHED:
-//     return; // Can't go next on Finished
-//   default:
-//     break;
-// }
