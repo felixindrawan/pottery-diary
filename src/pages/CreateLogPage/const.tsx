@@ -1,3 +1,5 @@
+import { Moment } from 'moment';
+
 export enum LogTab {
   TIMELINE = 'timeline',
   INFORMATION = 'information',
@@ -38,7 +40,7 @@ export type LogFieldTypes = {
   [LogField.TYPE]: LogType;
   [LogField.NUMBER]?: string;
   [LogField.TITLE]?: string;
-  [LogField.STAGE]: Record<ThrownStage, ThrownStageProperties>; //TODO Add Handbuild stage
+  [LogField.STAGE]: ThrownStages; // TODO: Stage Profile
   [LogField.CLAY]?: string[];
   [LogField.UNDERGLAZE]?: string[];
   [LogField.GLAZE]?: string[];
@@ -77,8 +79,10 @@ export enum ThrownStage {
 
 export interface ThrownStageProperties {
   notes?: string;
-  date: string;
+  date: Moment;
 }
+
+export type ThrownStages = Partial<Record<ThrownStage, ThrownStageProperties>>;
 
 export const THROWN_ORDER: Record<ThrownStage, number> = {
   [ThrownStage.TODO]: 0,
@@ -106,3 +110,19 @@ export const THROWN_FINISHED_LABEL: Record<ThrownStage, string> = {
   [ThrownStage.GLAZED]: 'Glazed',
   [ThrownStage.FINISHED]: 'Finished',
 };
+
+// Srot stages by THROWN_ORDER
+export function sortStages(stages: ThrownStages): ThrownStage[] {
+  // TODO: Stage Profile
+  return Object.keys(stages)
+    .sort(
+      (a: ThrownStage, b: ThrownStage) =>
+        (THROWN_ORDER?.[b] ?? Infinity) - (THROWN_ORDER?.[a] ?? Infinity),
+    )
+    .filter((stage: ThrownStage) => !!stages[stage]?.date) as ThrownStage[];
+}
+
+// Sort order of stages and get the latest with date
+export function getCurrentStage(stages: ThrownStages): ThrownStage {
+  return sortStages(stages)[0] as ThrownStage;
+}

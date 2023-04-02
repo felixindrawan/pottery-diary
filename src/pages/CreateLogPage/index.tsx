@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+import moment from 'moment';
 import { useForm } from 'react-hook-form';
 import MaterialTopTab from 'src/components/Navigation/MaterialTopTab';
 import {
@@ -7,7 +9,6 @@ import {
   LOG_TAB_TITLES,
   ThrownStage,
 } from 'src/pages/CreateLogPage/const';
-import { useCallback } from 'react';
 import { InformationTab } from './InformationTab';
 import { TimelineTab } from './TimelineTab';
 
@@ -17,12 +18,12 @@ export default function CreateLogStack() {
     handleSubmit,
     formState: { errors },
   } = useForm<LogFieldTypes>({
-    // TODO: Change default values for stage based on type
+    // TODO: Stage Profile
     defaultValues: {
       [LogField.TITLE]: 'Untitled',
       [LogField.STAGE]: {
         [ThrownStage.THROWN]: {
-          date: 'Today',
+          date: moment(),
         },
       },
     },
