@@ -7,6 +7,10 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "update-prod": "npx cross-env APP_ENV=prod eas update --branch main --message 'force update prod'",
+    "update-stage": "npx cross-env APP_ENV=stage eas update --branch stage --message 'force update staging'",
+    "update-dev": "npx cross-env APP_ENV=dev eas update --branch dev --message 'force update development'",
+
     "format": "prettier --write \"./**/*.{ts,tsx,json}\""
   },
   "dependencies": {
@@ -20,6 +24,7 @@
     "expo": "~48.0.5",
     "expo-application": "~5.1.1",
     "expo-constants": "~14.2.1",
+    "expo-dev-client": "~2.1.6",
     "expo-device": "~5.2.1",
     "expo-secure-store": "~12.1.1",
     "expo-status-bar": "~1.4.4",

@@ -1,0 +1,30 @@
+{
+  "cli": {
+    "version": ">= 3.8.1"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "channel": "development",
+      "env": {
+        "APP_ENV": "dev"
+      }
+
+    },
+    "staging": {
+      "distribution": "internal",
+      "channel": "staging",
+      "env": {
+        "APP_ENV": "stage"
+      }
+    },
+    "production": {
+      "channel": "production",
+      "developmentClient": false,
+      "env": {
+        "APP_ENV": "prod"
+      }
+    }
+  }
+}
