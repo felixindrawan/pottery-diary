@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import CreateLogPage from 'src/pages/CreateLogPage';
 import HomePage from 'src/pages/HomePage';
 import ProfilePage from 'src/pages/ProfilePage';
 import { Icon } from 'src/components/Icon';
@@ -8,6 +7,7 @@ import SearchAndFilter from 'src/pages/HomePage/SearchAndFilter';
 import { HeaderTitle } from 'src/components/PageHeader';
 import { getBGColor, useTheme } from 'src/hooks/useTheme';
 import { Stack } from '../Stack';
+import CreateLogStack from 'src/pages/CreateLogPage';
 
 enum Tab {
   HOME = 'homeTab',
@@ -35,6 +35,7 @@ export default function BottomTabNavigation() {
           name={name}
           component={component as any} //TODO: Fix type
           options={{
+            lazy: true,
             // Page Header Options
             headerTitle: () => <HeaderTitle title={TABS_TITLE[name] ?? name} />,
             headerRight: extra,
@@ -71,7 +72,7 @@ const TABS: TabProps[] = [
   },
   {
     name: Tab.CREATE_LOG,
-    component: CreateLogPage,
+    component: CreateLogStack,
     icon: 'add-box',
     modal: ({ navigation }) => ({
       tabPress: (e) => {

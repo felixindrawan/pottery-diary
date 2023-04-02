@@ -1,8 +1,7 @@
 import { ReactNode } from 'react';
 import { View as RNView } from 'react-native';
 import { ViewProps as RNViewProps } from 'react-native/Libraries/Components/View/ViewPropTypes';
-import { getBGColor, Mode, useTheme } from 'src/hooks/useTheme';
-import { Color, COLORS } from 'src/utils/styles';
+import { getBGColor, useTheme } from 'src/hooks/useTheme';
 
 interface ViewProps extends RNViewProps {
   children?: ReactNode;

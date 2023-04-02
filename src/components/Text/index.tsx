@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 import { Text as RNText } from 'react-native';
 import { TextProps as RNTextProps } from 'react-native/Libraries/Text/Text';
-import { getColor, Mode, useTheme } from 'src/hooks/useTheme';
-import { Color, COLORS, FONT_SIZES, Size } from 'src/utils/styles';
+import { getColor, useTheme } from 'src/hooks/useTheme';
+import { FONT_SIZES, Size } from 'src/utils/styles';
 
 interface TextProps extends RNTextProps {
   children?: ReactNode;
