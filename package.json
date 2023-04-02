@@ -10,7 +10,6 @@
     "update-prod": "npx cross-env APP_ENV=prod eas update --branch main --message 'force update prod'",
     "update-stage": "npx cross-env APP_ENV=stage eas update --branch stage --message 'force update staging'",
     "update-dev": "npx cross-env APP_ENV=dev eas update --branch dev --message 'force update development'",
-
     "format": "prettier --write \"./**/*.{ts,tsx,json}\""
   },
   "dependencies": {

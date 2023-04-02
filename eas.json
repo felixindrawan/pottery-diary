@@ -10,7 +10,6 @@
       "env": {
         "APP_ENV": "dev"
       }
-
     },
     "staging": {
       "distribution": "internal",

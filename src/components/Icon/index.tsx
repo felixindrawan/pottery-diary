@@ -14,7 +14,7 @@ export function Icon({ name, size = 30, color, isActive = false }: IconProps) {
     <MaterialIcons
       name={name}
       size={size}
-      color={color || isActive ? currentPrimaryColor : getColor(currentTheme)}
+      color={!!color ? color : isActive ? currentPrimaryColor : getColor(currentTheme)}
     />
   );
 }
