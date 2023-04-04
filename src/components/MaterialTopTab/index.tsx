@@ -9,6 +9,7 @@ export default function MaterialTopTab({ TABS, LABELS }) {
   const { currentTheme, currentPrimaryColor } = useTheme();
   const style = {
     backgroundColor: getBGColor(currentTheme),
+    marginBottom: 20,
   };
   const labelStyle = (focused) => ({
     color: focused ? currentPrimaryColor : getColor(currentTheme),

@@ -1,5 +1,5 @@
 import { ThemeProvider } from 'src/hooks/useTheme';
-import Pages from 'src/pages';
+import Screens from 'src/screens';
 import * as Sentry from 'sentry-expo';
 import { APP_ENV, SENTRY_DSN } from '@env';
 
@@ -17,7 +17,7 @@ function App() {
   try {
     return (
       <ThemeProvider>
-        <Pages />
+        <Screens />
       </ThemeProvider>
     );
   } catch (error) {
