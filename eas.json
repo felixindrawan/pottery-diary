@@ -10,7 +10,14 @@
       "env": {
         "APP_ENV": "dev"
       }
-
+    },
+    "dev-vic": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "channel": "dev-vic",
+      "env": {
+        "APP_ENV": "dev"
+      }
     },
     "staging": {
       "distribution": "internal",

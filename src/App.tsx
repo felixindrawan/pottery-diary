@@ -2,6 +2,7 @@ import { ThemeProvider } from 'src/hooks/useTheme';
 import Pages from 'src/pages';
 import * as Sentry from 'sentry-expo';
 import { APP_ENV, SENTRY_DSN } from '@env';
+import { Fragment } from 'react';
 
 // Error Handling by Sentry
 Sentry.init({
@@ -22,6 +23,7 @@ function App() {
     );
   } catch (error) {
     Sentry.Native.captureException(error);
+    return <Fragment></Fragment>
   }
 }
 

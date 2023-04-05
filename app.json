@@ -37,7 +37,7 @@
         {
           "file": "sentry-expo/upload-sourcemaps",
           "config": {
-            "organization": "felix-indrawan",
+            "organization": "potterydiary",
             "project": "pottery-diary"
           }
         }

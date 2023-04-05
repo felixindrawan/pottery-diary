@@ -1,8 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import HomePage from 'src/pages/HomePage';
-import { RouteConstants } from '../RouteConstants';
-import { HomeStackParamList } from '../types';
+import { RouteConstants } from './../RouteConstants';
 
 const Stack = createStackNavigator<HomeStackParamList>();
 
@@ -19,4 +18,4 @@ function HomeStack() {
   );
 }
 
-export default HomeStack;
+export { HomeStack};
