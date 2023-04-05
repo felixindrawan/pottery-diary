@@ -1,5 +1,4 @@
 import { ExpoConfig, ConfigContext } from 'expo/config';
-
 let environment = {};
 
 if (process.env.APP_ENV === 'prod') {

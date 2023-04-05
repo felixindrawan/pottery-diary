@@ -1,16 +1,18 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { BottomTabParamList } from './types';
-import { RouteConstants } from './RouteConstants';
-import { HomeStack } from '../stacks/HomeStack';
-import { ProfileStack } from '../stacks/ProfileStack';
-import { Log }
+import{ RouteConstants } from './RouteConstants';
+import { HomeStack } from './stacks/HomeStack';
+import { ProfileStack } from './stacks/ProfileStack';
+import { LogStack } from './stacks/LogStack';
 import SearchAndFilter from 'src/pages/HomePage/SearchAndFilter';
+import { getBGColor, useTheme } from 'src/hooks/useTheme';
+import { HeaderTitle } from 'src/components/PageHeader';
+import { Icon } from 'src/components/Icon';
 
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
-function BottomTab() {
+const BottomTab = ()=> {
   const { currentTheme } = useTheme();
   const style = {
     backgroundColor: getBGColor(currentTheme),
@@ -18,7 +20,7 @@ function BottomTab() {
 
   return (
     <Tab.Navigator initialRouteName={RouteConstants.homeStack}>
-      <Tab.screen
+      <Tab.Screen
         name={RouteConstants.homeStack}
         component={HomeStack}
         options={{
@@ -35,7 +37,7 @@ function BottomTab() {
           tabBarStyle: { ...style, height: 54 },
         }}
       />
-      <Tab.screen
+      <Tab.Screen
         name={RouteConstants.logStack}
         component={LogStack}
         options={{
@@ -52,7 +54,7 @@ function BottomTab() {
           // Show as Modal
         }}
       />
-      <Tab.screen
+      <Tab.Screen
         name={RouteConstants.profileStack}
         component={ProfileStack}
         options={{
@@ -73,4 +75,4 @@ function BottomTab() {
   );
 }
 
-export default BottomTab;
+export { BottomTab } ;
