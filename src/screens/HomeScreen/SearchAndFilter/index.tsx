@@ -6,7 +6,6 @@ export default function SearchAndFilter() {
     <View
       style={{
         paddingLeft: 10,
-        paddingRight: 10,
         gap: 5,
         flexDirection: 'row',
       }}

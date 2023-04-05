@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
     gap: 25,
     flexDirection: 'row',
     paddingVertical: 10,
-    paddingHorizontal: 15,
     alignItems: 'center',
   },
   buttonContainer: {

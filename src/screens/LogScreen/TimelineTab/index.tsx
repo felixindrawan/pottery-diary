@@ -8,7 +8,7 @@ import {
   ThrownStage,
   ThrownStages,
   THROWN_ORDER,
-} from 'src/pages/CreateLogPage/const';
+} from 'src/screens/LogScreen/const';
 import { FormFieldProps } from 'src/components/FormField';
 import { Stage } from './Stage';
 import { Dispatch, useState } from 'react';
@@ -88,7 +88,7 @@ function onPreviousStage(stages: ThrownStages, setCurrentStage: Dispatch<ThrownS
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
     flex: 1,
+    paddingHorizontal: 10,
   },
 });

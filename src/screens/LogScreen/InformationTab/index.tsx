@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
 import { FieldErrors } from 'react-hook-form';
-import View from 'src/components/View';
-import { LOG_FIELD_TITLES, LogField, LogFieldTypes } from 'src/pages/CreateLogPage/const';
+import { LOG_FIELD_TITLES, LogField, LogFieldTypes } from 'src/screens/LogScreen/const';
 import FormField, { FormFieldProps } from 'src/components/FormField';
 import Text from 'src/components/Text';
+import View from 'src/components/View';
 
 interface InformationTabProps extends Partial<FormFieldProps<LogFieldTypes>> {
   errors: FieldErrors<LogFieldTypes>;
@@ -87,7 +87,6 @@ export function InformationTab({ control, errors }: InformationTabProps) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
     flex: 1,
   },
   fieldLabel: {
