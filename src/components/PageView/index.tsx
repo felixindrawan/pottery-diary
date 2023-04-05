@@ -3,12 +3,12 @@ import { StyleSheet } from 'react-native';
 import { HeaderTitle, HeaderTitleProps } from 'src/components/PageHeader';
 import View from 'src/components/View';
 
-interface ScreenView {
+interface ScreenViewProps {
   headerProps: HeaderTitleProps;
   children: ReactNode;
 }
 
-export default function ScreenView({ children, headerProps }) {
+export default function ScreenView({ children, headerProps }: ScreenViewProps) {
   return (
     <View style={styles.container}>
       <HeaderTitle {...headerProps} />

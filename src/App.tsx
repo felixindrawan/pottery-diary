@@ -1,8 +1,8 @@
-import { ThemeProvider } from 'src/hooks/useTheme';
-import Screens from 'src/screens';
 import * as Sentry from 'sentry-expo';
+import { StatusBar } from 'expo-status-bar';
 import { APP_ENV, SENTRY_DSN } from '@env';
-import { Fragment } from 'react';
+import RootNavigator from 'src/routes/RootNavigator';
+import { ThemeProvider } from 'src/hooks/useTheme';
 
 // Error Handling by Sentry
 Sentry.init({
@@ -14,17 +14,18 @@ Sentry.init({
   debug: APP_ENV === 'dev',
 });
 
-function App() {
+const App = () => {
   try {
     return (
       <ThemeProvider>
-        <Screens />
+        <StatusBar style="auto" />
+        <RootNavigator />
       </ThemeProvider>
     );
   } catch (error) {
     Sentry.Native.captureException(error);
-    return <Fragment></Fragment>
+    return <></>;
   }
-}
+};
 
 export default Sentry.Native.wrap(App);

@@ -4,7 +4,6 @@
     "baseUrl": "./",
     "target": "ESNext",
     "module": "commonjs",
-    "rootDir": "./src/",
     "outDir": "./dist/",
     "strict": true,
     "moduleResolution": "node",
@@ -19,12 +18,12 @@
     "allowJs": true,
     "noEmit": true,
     "isolatedModules": true,
-    "typeRoots": ["node_modules/@types", "src/types"],
     "paths": {
       "src/*": ["src/*"],
       "assets": ["assets"]
     },
-    "exclude": ["node_modules", "babel.config.js", "dist"],
+    "typeRoots": ["node_modules/@types", "src/types"],
     "jsx": "react-jsx"
-  }
+  },
+  "exclude": ["node_modules", "babel.config.js", "dist"]
 }

@@ -5,7 +5,7 @@ import FormField, { FormFieldProps } from 'src/components/FormField';
 import Text from 'src/components/Text';
 import View from 'src/components/View';
 
-interface InformationTabProps extends Partial<FormFieldProps<LogFieldTypes>> {
+interface InformationTabProps extends Partial<FormFieldProps> {
   errors: FieldErrors<LogFieldTypes>;
 }
 

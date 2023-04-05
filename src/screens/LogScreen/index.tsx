@@ -31,7 +31,9 @@ export default function LogScreen({ navigation }) {
       },
     },
   });
+  // @ts-ignore TODO: TYPE
   const Timeline = useCallback(() => <TimelineTab control={control} errors={errors} />, []);
+  // @ts-ignore TODO: TYPE
   const Information = useCallback(() => <InformationTab control={control} errors={errors} />, []);
   const LOG_TABS = [
     {

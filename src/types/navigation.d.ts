@@ -6,8 +6,8 @@ declare global {
   type LogStackParamList = {
     Log: undefined;
   };
-  type ProfileStackParamList = {
-    Profile: undefined;
+  type SettingsStackParamList = {
+    Settings: undefined;
   };
   type BottomTabParamList = {};
 

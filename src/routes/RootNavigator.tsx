@@ -1,23 +1,25 @@
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import  {RouteConstants}  from './RouteConstants';
+import { Route } from 'src/routes/const';
+import { BottomTab } from 'src/routes/BottomTab';
 
-import {BottomTab} from './BottomTab';
-
-
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 const RootNavigator = () => {
   return (
-    <Stack.Navigator>
-      {/* Auth */}
-      {/* <Stack.Screen name={} component={} options={{ headerShown: false }} /> */}
-      {/* BottomTab */}
-      <Stack.Screen name={RouteConstants.bottomTab} component={BottomTab} />
-      {/* Log */}
-      {/* <Stack.Screen name={RouteConstants.logStack} component={LogStack} /> */}
-      {/* TODO error screen */}
-      {/* <Stack.Screen name={} component={} />  */}
-    </Stack.Navigator>
+    <NavigationContainer>
+      <RootStack.Navigator screenOptions={{ headerShown: false }}>
+        {/* Auth */}
+        {/* <Stack.Screen name={} component={} options={{ headerShown: false }} /> */}
+        {/* BottomTab */}
+        <RootStack.Screen name={Route.BOTTOM_TAB} component={BottomTab} />
+        {/* Log */}
+        {/* <Stack.Screen name={Route.LOG_STACK} component={LogStack} /> */}
+        {/* TODO error screen */}
+        {/* <Stack.Screen name={} component={} />  */}
+      </RootStack.Navigator>
+    </NavigationContainer>
   );
 };
+
 export default RootNavigator;
