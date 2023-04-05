@@ -2,9 +2,32 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "baseUrl": "./",
+    "target": "ESNext",
+    "module": "commonjs",
+    "rootDir": "./src/",
+    "outDir": "./dist/",
+    "strict": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "removeComments": true,
+    "allowJs": true,
+    "noEmit": true,
+    "isolatedModules": true,
     "paths": {
       "src/*": ["src/*"]
     },
+    "exclude": [
+      "node_modules",
+      "babel.config.js",
+      "metro.config.js",
+      "jest.config.js"
+    ],
     "jsx": "react-jsx"
   }
 }
