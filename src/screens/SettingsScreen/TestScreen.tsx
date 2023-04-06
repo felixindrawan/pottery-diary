@@ -7,27 +7,24 @@ import { getBGColor, useTheme } from 'src/hooks/useTheme';
 
 const TestScreen = ({ navigation, route }: SettingsStackScreenProps<'testScreen'>) => {
   const { id, optional = 'default' } = route.params;
-  const { currentTheme } = useTheme();
   const onPress = () => {
     navigation.navigate(Route.SETTINGS);
   };
   return (
-    <SafeAreaView style={{backgroundColor: getBGColor(currentTheme), flex:1}}>
-      <ScreenView
-        headerProps={{
-          title: ROUTES_TITLE[Route.TEST_SCREEN],
-        }}
-      >
-        <View style={styles.container}>
-          <Text>This is a test screen</Text>
-          <View>
-            <Text>ID: {id} </Text>
-            <Text>Optional: {optional}</Text>
-          </View>
-          <Button title={'Go to settings'} onPress={onPress} />
+    <ScreenView
+      headerProps={{
+        title: ROUTES_TITLE[Route.TEST_SCREEN],
+      }}
+    >
+      <View style={styles.container}>
+        <Text>This is a test screen</Text>
+        <View>
+          <Text>ID: {id} </Text>
+          <Text>Optional: {optional}</Text>
         </View>
-      </ScreenView>
-    </SafeAreaView>
+        <Button title={'Go to settings'} onPress={onPress} />
+      </View>
+    </ScreenView>
   );
 };
 

@@ -7,11 +7,11 @@ import { Mode, useTheme } from 'src/hooks/useTheme';
 import { ROUTES_TITLE, Route } from 'src/routes/const';
 import { SettingsStackScreenProps } from 'src/routes/types';
 
-const SettingsScreen = ({navigation }: SettingsStackScreenProps<'settingsTab'>) => {
+const SettingsScreen = ({ navigation }: SettingsStackScreenProps<'settingsTab'>) => {
   const { currentTheme, onThemeUpdate } = useTheme();
   const navigateToTestScreen = () => {
-    navigation.navigate(Route.TEST_SCREEN, {id: '12313'});
-  }
+    navigation.navigate(Route.TEST_SCREEN, { id: '12313' });
+  };
   return (
     <ScreenView
       headerProps={{
@@ -23,11 +23,13 @@ const SettingsScreen = ({navigation }: SettingsStackScreenProps<'settingsTab'>) 
         <Text>
           Light Mode: <Switch onValueChange={onThemeUpdate} value={currentTheme === Mode.Light} />
         </Text>
-        {    APP_ENV == 'dev' ?    <Button title={'Go to test screen'} onPress={navigateToTestScreen}/> : null}
+        {APP_ENV == 'dev' ? (
+          <Button title={'Go to test screen'} onPress={navigateToTestScreen} />
+        ) : null}
       </View>
     </ScreenView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

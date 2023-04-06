@@ -40,7 +40,6 @@ const ROUTES_TITLE: Record<Route, string> = {
   [Route.SETTINGS]: 'Settings',
   [Route.TEST_SCREEN]: 'Test Screen',
 
-
   // Future
   [Route.LAUNCH]: 'Launch',
   [Route.LOGIN]: 'Login',

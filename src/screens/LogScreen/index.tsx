@@ -19,9 +19,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { LogStackScreenProps } from 'src/routes/types';
 
-
-
-export default function LogScreen({navigation}: LogStackScreenProps<'logTab'>) {
+export default function LogScreen({ navigation }: LogStackScreenProps<'logTab'>) {
   const {
     control,
     handleSubmit,

@@ -21,7 +21,7 @@ export type LogStackParamList = {
 export type SettingsStackParamList = {
   settingsTab: undefined;
   // for each screen under home you can add the route params
-  testScreen: { id: string, optional? : string}
+  testScreen: { id: string; optional?: string };
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> = StackScreenProps<
@@ -43,7 +43,6 @@ export type SettingsStackScreenProps<T extends keyof SettingsStackParamList> = C
   StackScreenProps<SettingsStackParamList, T>,
   TabsScreenProps<keyof BottomTabParamList>
 >;
-
 
 export type HomeStackScreenProps<T extends keyof HomeStackParamList> = CompositeScreenProps<
   StackScreenProps<HomeStackParamList, T>,

@@ -60,4 +60,3 @@ const BottomTab = () => {
 };
 
 export { BottomTab };
-

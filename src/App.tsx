@@ -15,14 +15,13 @@ Sentry.init({
   debug: APP_ENV === 'dev',
 });
 
-
-const App = () =>{
+const App = () => {
   return (
     <ThemeProvider>
-        <StatusBar style="auto" />
-        <RootNavigator />
-            </ThemeProvider>
+      <StatusBar style="auto" />
+      <RootNavigator />
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
