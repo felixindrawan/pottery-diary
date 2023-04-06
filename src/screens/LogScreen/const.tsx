@@ -79,7 +79,7 @@ export enum ThrownStage {
 
 export interface ThrownStageProperties {
   notes?: string;
-  date: Moment;
+  date?: Moment;
 }
 
 export type ThrownStages = Partial<Record<ThrownStage, ThrownStageProperties>>;
@@ -116,10 +116,11 @@ export function sortStages(stages: ThrownStages): ThrownStage[] {
   // TODO: Stage Profile
   return Object.keys(stages)
     .sort(
-      (a: ThrownStage, b: ThrownStage) =>
-        (THROWN_ORDER?.[b] ?? Infinity) - (THROWN_ORDER?.[a] ?? Infinity),
+      (a, b) =>
+        (THROWN_ORDER?.[b as ThrownStage] ?? Infinity) -
+        (THROWN_ORDER?.[a as ThrownStage] ?? Infinity),
     )
-    .filter((stage: ThrownStage) => !!stages[stage]?.date) as ThrownStage[];
+    .filter((stage) => !!stages[stage as ThrownStage]?.date) as ThrownStage[];
 }
 
 // Sort order of stages and get the latest with date

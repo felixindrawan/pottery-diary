@@ -10,9 +10,9 @@ import moment from 'moment';
 import { formatMMDDYY } from 'src/utils/transform/DateTimeTransform';
 
 interface StageProps {
-  current?: boolean;
-  stage?: ThrownStage; // TODO: Stage Profile
+  stage: ThrownStage; // TODO: Stage Profile
   stageProps?: ThrownStageProperties; // TODO: Stage Profile
+  current?: boolean;
   onNextStage?: () => void;
   onPreviousStage?: () => void;
 }

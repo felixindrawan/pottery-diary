@@ -68,3 +68,22 @@ Different options to retrieve environemnt vars
     - can use @env to retrieve the values
   - add it to the app.config.ts
     - Constants.expoConfig.extra.variable to retrieve
+
+## Routing 
+Routing is done using React-navigation
+
+How it works: 
+ - Root Navigator (stack)
+   - BottomTab
+     - homeStack
+       - screens
+     - profileStack
+       - screens
+   - AuthStack (if any)
+   - LogStack
+
+
+## Local set up
+ - Turn on developer mode
+ - set up wireless debugging
+

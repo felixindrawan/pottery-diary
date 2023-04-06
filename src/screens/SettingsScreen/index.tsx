@@ -1,12 +1,17 @@
-import { StyleSheet, Switch } from 'react-native';
-import { Mode, useTheme } from 'src/hooks/useTheme';
+import { APP_ENV } from '@env';
+import { Button, StyleSheet, Switch } from 'react-native';
+import ScreenView from 'src/components/PageView';
 import Text from 'src/components/Text';
 import View from 'src/components/View';
-import ScreenView from 'src/components/PageView';
-import { Route, ROUTES_TITLE } from 'src/routes/const';
+import { Mode, useTheme } from 'src/hooks/useTheme';
+import { ROUTES_TITLE, Route } from 'src/routes/const';
+import { SettingsStackScreenProps } from 'src/routes/types';
 
-export default function SettingsScreen() {
+const SettingsScreen = ({ navigation }: SettingsStackScreenProps<Route.SETTINGS>) => {
   const { currentTheme, onThemeUpdate } = useTheme();
+  const navigateToTestScreen = () => {
+    navigation.navigate(Route.TEST_SCREEN, { id: '12313' });
+  };
   return (
     <ScreenView
       headerProps={{
@@ -18,10 +23,13 @@ export default function SettingsScreen() {
         <Text>
           Light Mode: <Switch onValueChange={onThemeUpdate} value={currentTheme === Mode.Light} />
         </Text>
+        {APP_ENV == 'dev' ? (
+          <Button title={'Go to test screen'} onPress={navigateToTestScreen} />
+        ) : null}
       </View>
     </ScreenView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -30,3 +38,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export { SettingsScreen };

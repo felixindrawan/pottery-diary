@@ -1,19 +1,21 @@
 import { ReactNode } from 'react';
-import { StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import { HeaderTitle, HeaderTitleProps } from 'src/components/PageHeader';
-import View from 'src/components/View';
+import { getBGColor, useTheme } from 'src/hooks/useTheme';
 
-interface ScreenView {
+interface ScreenViewProps {
   headerProps: HeaderTitleProps;
   children: ReactNode;
 }
 
-export default function ScreenView({ children, headerProps }) {
+export default function ScreenView({ children, headerProps }: ScreenViewProps) {
+  const { currentTheme } = useTheme();
+
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={{ ...styles.container, backgroundColor: getBGColor(currentTheme) }}>
       <HeaderTitle {...headerProps} />
       {children}
-    </View>
+    </SafeAreaView>
   );
 }
 

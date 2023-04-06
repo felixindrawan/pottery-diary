@@ -14,8 +14,9 @@ import { TimelineTab } from './TimelineTab';
 import ScreenView from 'src/components/PageView';
 import { Route, ROUTES_TITLE } from 'src/routes/const';
 import SaveButton from './SaveButton';
+import { LogStackScreenProps } from 'src/routes/types';
 
-export default function LogScreen({ navigation }) {
+export default function LogScreen({ navigation }: LogStackScreenProps<Route.LOG>) {
   const {
     control,
     handleSubmit,
@@ -31,7 +32,9 @@ export default function LogScreen({ navigation }) {
       },
     },
   });
+  // @ts-ignore TODO: TYPE
   const Timeline = useCallback(() => <TimelineTab control={control} errors={errors} />, []);
+  // @ts-ignore TODO: TYPE
   const Information = useCallback(() => <InformationTab control={control} errors={errors} />, []);
   const LOG_TABS = [
     {
@@ -47,7 +50,7 @@ export default function LogScreen({ navigation }) {
   return (
     <ScreenView
       headerProps={{
-        onBack: () => navigation.goBack(),
+        onBack: () => navigation.pop(),
         title: ROUTES_TITLE[Route.LOG],
         extra: <SaveButton />,
       }}

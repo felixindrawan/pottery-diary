@@ -1,6 +1,7 @@
+import { Dispatch, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { FieldErrors } from 'react-hook-form';
-import View from 'src/components/View';
+import moment from 'moment';
 import {
   getCurrentStage,
   LogFieldTypes,
@@ -9,13 +10,12 @@ import {
   ThrownStages,
   THROWN_ORDER,
 } from 'src/screens/LogScreen/const';
+import { Stage } from 'src/screens/LogScreen/TimelineTab/Stage';
+import View from 'src/components/View';
 import { FormFieldProps } from 'src/components/FormField';
-import { Stage } from './Stage';
-import { Dispatch, useState } from 'react';
-import moment from 'moment';
 import { reverseObject } from 'src/utils/transform/ObjectTransform';
 
-interface TimelineTabProps extends Partial<FormFieldProps<LogFieldTypes>> {
+interface TimelineTabProps extends Partial<FormFieldProps> {
   errors: FieldErrors<LogFieldTypes>;
 }
 
@@ -52,6 +52,7 @@ function onNextStage(stages: ThrownStages, setCurrentStage: Dispatch<ThrownStage
     setCurrentStage({
       ...stages,
       [STAGE_ORDER[THROWN_ORDER[currentStage] + 1]]: {
+        // @ts-ignore TODO
         ...stages[STAGE_ORDER[THROWN_ORDER[currentStage] + 1]],
         date: moment(),
       },
