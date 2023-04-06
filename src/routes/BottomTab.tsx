@@ -1,11 +1,11 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Icon } from 'src/components/Icon';
+import View from 'src/components/View';
 import { getBGColor, useTheme } from 'src/hooks/useTheme';
 import { ROUTES_TITLE, Route } from 'src/routes/const';
 import { HomeStack } from 'src/routes/stacks/HomeStack';
 import { SettingsStack } from 'src/routes/stacks/SettingsStack';
-import { LogStack } from 'src/routes/stacks/LogStack';
-import { Icon } from 'src/components/Icon';
-import { PreCreateLogPage } from 'src/pages/CreateLogPage/PreCreateLogPage';
+import { BottomTabParamList } from './types';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -34,14 +34,18 @@ const BottomTab = () => {
         }}
       />
       <Tab.Screen
-        // name={Route.LOG_STACK}
-        // component={LogStack}
-        name={RouteConstants.preLogPage}
-        component={PreCreateLogPage}
+        name={'empty'}
+        component={View}
         options={{
           tabBarIcon: ({ focused }) => <Icon name="add-box" isActive={focused} />,
           tabBarAccessibilityLabel: ROUTES_TITLE[Route.LOG],
         }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate(Route.LOG_STACK);
+          },
+        })}
       />
       <Tab.Screen
         name={Route.SETTINGS_STACK}
@@ -56,3 +60,4 @@ const BottomTab = () => {
 };
 
 export { BottomTab };
+
