@@ -24,7 +24,7 @@
       "src/*": ["src/*"],
       "assets": ["assets"]
     },
-    "exclude": ["node_modules", "babel.config.js", "dist"],
     "jsx": "react-jsx"
-  }
+  },
+  "exclude": ["node_modules", "babel.config.js", "dist"]
 }

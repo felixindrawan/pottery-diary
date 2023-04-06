@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native';
-import { Controller, UseControllerProps } from 'react-hook-form';
+import { Controller, FieldValues, UseControllerProps } from 'react-hook-form';
 import { Color, COLORS, getHexToAlpha, Size } from 'src/utils/styles';
 import Text from 'src/components/Text';
 import View from '../View';
 import { TextInput } from 'react-native-gesture-handler';
 import { getColor, useTheme } from 'src/hooks/useTheme';
 
-export interface FormFieldProps<T> extends UseControllerProps<T> {
+export interface FormFieldProps extends UseControllerProps<FieldValues> {
   error?: any; // Should be FieldError;
   inputType?: 'text' | 'number' | 'select' | 'dropdown';
   label?: string;
@@ -20,14 +20,14 @@ export default function FormField<T>({
   error,
   inputType,
   placeholder = '',
-}: FormFieldProps<T>) {
+}: FormFieldProps) {
   const { currentTheme } = useTheme();
   let Input = TextInput;
   let validation = rules;
   switch (inputType) {
     case 'number':
       validation = { ...validation };
-      // @ts-ignore
+      // @ts-ignore TODO
       Input = (props) => <TextInput keyboardType="numeric" {...props} />;
       break;
     case 'text':

@@ -1,20 +1,20 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import CreateLogPage from 'src/pages/CreateLogPage';
-import { RouteConstants } from './../RouteConstants';
+import { Route } from 'src/routes/const';
+import LogScreen from 'src/screens/LogScreen';
 
 const Stack = createStackNavigator<LogStackParamList>();
 
-function LogStack() {
+const LogStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={RouteConstants.createLog}
+      initialRouteName={Route.LOG}
     >
-      <Stack.Screen name={RouteConstants.createLog} component={CreateLogPage} />
+      <Stack.Screen name={Route.LOG} component={LogScreen} />
     </Stack.Navigator>
   );
-}
+};
 
-export {LogStack};
+export { LogStack };

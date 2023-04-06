@@ -1,21 +1,21 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import * as React from 'react';
-import HomePage from 'src/pages/HomePage';
-import { RouteConstants } from './../RouteConstants';
+import { Route } from 'src/routes/const';
+import HomeScreen from 'src/screens/HomeScreen';
 
 const Stack = createStackNavigator<HomeStackParamList>();
 
-function HomeStack() {
+const HomeStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={RouteConstants.home}
+
+      initialRouteName={Route.HOME}
     >
-      <Stack.Screen name={RouteConstants.home} component={HomePage} />
+      <Stack.Screen name={Route.HOME} component={HomeScreen} />
     </Stack.Navigator>
   );
-}
+};
 
-export { HomeStack};
+export { HomeStack };

@@ -1,7 +1,7 @@
 # Development Issues
 Documented development issues I've ran into while developing the app
 
-### `Unable to resolve "@/pages/HomePage" from "App.tsx"`
+### `Unable to resolve "@/screens/HomeScreen" from "App.tsx"`
 Using the `tsconfig.json` as follows
 ```bash
 {
@@ -14,11 +14,11 @@ Using the `tsconfig.json` as follows
   }
 }
 ```
-and `App.tsx` importing `HomePage` as normal, I ran into the error above
+and `App.tsx` importing `HomeScreen` as normal, I ran into the error above
 
 Solutions: 
 1. Instead of using Path Aliases, use relative instead 
-e.g. `import HomePage from './src/pages/HomePage';`
+e.g. `import HomeScreen from './src/screens/HomeScreen';`
 2. **Accepted Solution**: https://stackoverflow.com/questions/57798793
 Change `compilerOptions` to 
 ```bash
