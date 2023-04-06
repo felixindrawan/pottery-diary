@@ -1,3 +1,4 @@
+import { APP_ENV } from '@env';
 import { Button, StyleSheet, Switch } from 'react-native';
 import ScreenView from 'src/components/PageView';
 import Text from 'src/components/Text';
@@ -22,7 +23,7 @@ const SettingsScreen = ({navigation }: SettingsStackScreenProps<'settingsTab'>) 
         <Text>
           Light Mode: <Switch onValueChange={onThemeUpdate} value={currentTheme === Mode.Light} />
         </Text>
-        <Button title={'Go to test screen'} onPress={navigateToTestScreen}/>
+        {    APP_ENV == 'dev' ?    <Button title={'Go to test screen'} onPress={navigateToTestScreen}/> : null}
       </View>
     </ScreenView>
   );
