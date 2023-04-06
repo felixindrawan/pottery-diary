@@ -1,12 +1,13 @@
+import { useNavigation } from '@react-navigation/native';
 import { Button, SafeAreaView, StyleSheet, View } from 'react-native';
 import ScreenView from 'src/components/PageView';
 import Text from 'src/components/Text';
 import { ROUTES_TITLE, Route } from 'src/routes/const';
-import { SettingsStackScreenProps } from 'src/routes/types';
-import { getBGColor, useTheme } from 'src/hooks/useTheme';
+import { SettingsNavigationProps, SettingsStackScreenProps } from 'src/routes/types';
 
-const TestScreen = ({ navigation, route }: SettingsStackScreenProps<'testScreen'>) => {
-  const { id, optional = 'default' } = route.params;
+const TestScreen = ({ navigation, route }: SettingsStackScreenProps<Route.TEST_SCREEN>) => {
+  const { id, optional = 'default' } = route.params || {};
+  const qer = route.params.id;
   const onPress = () => {
     navigation.navigate(Route.SETTINGS);
   };
@@ -22,9 +23,21 @@ const TestScreen = ({ navigation, route }: SettingsStackScreenProps<'testScreen'
           <Text>ID: {id} </Text>
           <Text>Optional: {optional}</Text>
         </View>
-        <Button title={'Go to settings'} onPress={onPress} />
+        <TestComponent />
       </View>
     </ScreenView>
+  );
+};
+
+const TestComponent = () => {
+  const navigation = useNavigation<SettingsNavigationProps<Route.TEST_SCREEN>>();
+  const onPress = () => {
+    navigation.navigate(Route.SETTINGS);
+  };
+  return (
+    <View style={styles.container}>
+      <Button title={'Go to settings'} onPress={onPress} />
+    </View>
   );
 };
 
