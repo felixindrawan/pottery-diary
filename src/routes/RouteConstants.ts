@@ -8,8 +8,9 @@ const RouteConstants = {
     homeStack : "HomeStack",
     profileStack : "ProfileStack",
     logStack : "LogStack",
-    createLog: "createLog",
+    createLog: "CreateLog",
+    preLogPage: "PreCreateLog",
     bottomTab : "BottomTab",
-  }
+  } as const;
   export {RouteConstants};
   

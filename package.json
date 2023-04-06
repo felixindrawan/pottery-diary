@@ -1,12 +1,13 @@
 {
   "name": "potterydiary",
   "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
+  "main": "App.ts",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "dev": "expo start --dev-client --tunnel",
     "update-prod": "npx cross-env APP_ENV=prod eas update --branch main --message 'force update prod'",
     "update-stage": "npx cross-env APP_ENV=stage eas update --branch stage --message 'force update staging'",
     "update-dev": "npx cross-env APP_ENV=dev eas update --branch dev --message 'force update development'",

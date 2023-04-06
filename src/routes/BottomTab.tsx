@@ -5,6 +5,7 @@ import { HomeStack } from 'src/routes/stacks/HomeStack';
 import { SettingsStack } from 'src/routes/stacks/SettingsStack';
 import { LogStack } from 'src/routes/stacks/LogStack';
 import { Icon } from 'src/components/Icon';
+import { PreCreateLogPage } from 'src/pages/CreateLogPage/PreCreateLogPage';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -33,8 +34,10 @@ const BottomTab = () => {
         }}
       />
       <Tab.Screen
-        name={Route.LOG_STACK}
-        component={LogStack}
+        // name={Route.LOG_STACK}
+        // component={LogStack}
+        name={RouteConstants.preLogPage}
+        component={PreCreateLogPage}
         options={{
           tabBarIcon: ({ focused }) => <Icon name="add-box" isActive={focused} />,
           tabBarAccessibilityLabel: ROUTES_TITLE[Route.LOG],

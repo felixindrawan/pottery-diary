@@ -15,18 +15,14 @@ Sentry.init({
   debug: APP_ENV === 'dev',
 });
 
-const App = () => {
-  try {
-    return (
-      <ThemeProvider>
+
+const App = () =>{
+  return (
+    <ThemeProvider>
         <StatusBar style="auto" />
         <RootNavigator />
-      </ThemeProvider>
-    );
-  } catch (error) {
-    Sentry.Native.captureException(error);
-    return <></>;
-  }
-};
+            </ThemeProvider>
+  );
+}
 
-export default Sentry.Native.wrap(App);
+export default App;
