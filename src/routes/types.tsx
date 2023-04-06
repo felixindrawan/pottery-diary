@@ -5,27 +5,28 @@ import type {
 } from '@react-navigation/native';
 import type { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import type { BottomTabNavigationProp, BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { Route } from './const';
 
 export type RootStackParamList = {
-  bottomTab: NavigatorScreenParams<BottomTabParamList>;
-  logStack: NavigatorScreenParams<LogStackParamList>;
+  [Route.BOTTOM_TAB]: NavigatorScreenParams<BottomTabParamList>;
+  [Route.LOG_STACK]: NavigatorScreenParams<LogStackParamList>;
 };
 export type BottomTabParamList = {
-  homeStack: NavigatorScreenParams<HomeStackParamList>;
-  empty: undefined;
-  settingsStack: NavigatorScreenParams<SettingsStackParamList>;
+  [Route.HOME_STACK]: NavigatorScreenParams<HomeStackParamList>;
+  empty: undefined; // TODO Remove ? @victor
+  [Route.SETTINGS_STACK]: NavigatorScreenParams<SettingsStackParamList>;
 };
 export type HomeStackParamList = {
   // naming convention is that the enum string is the name ie Route.Home = 'homeTab'
-  homeTab: undefined;
+  [Route.HOME]: undefined;
 };
 export type LogStackParamList = {
-  logTab: undefined;
+  [Route.LOG]: undefined;
 };
 export type SettingsStackParamList = {
-  settingsTab: undefined;
+  [Route.SETTINGS]: undefined;
   // for each screen under home you can add the route params
-  testScreen: { id: string; optional?: string };
+  [Route.TEST_SCREEN]: { id: string; optional?: string }; // TODO Remove
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> = StackScreenProps<

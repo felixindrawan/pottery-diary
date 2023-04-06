@@ -11,16 +11,8 @@ const RootNavigator = () => {
   return (
     <NavigationContainer>
       <RootStack.Navigator screenOptions={{ headerShown: false }}>
-        <RootStack.Screen
-          name={Route.BOTTOM_TAB}
-          component={BottomTab}
-          options={{ headerShown: false }}
-        />
-        <RootStack.Screen
-          name={Route.LOG_STACK}
-          component={LogStack}
-          options={{ headerShown: false }}
-        />
+        <RootStack.Screen name={Route.BOTTOM_TAB} component={BottomTab} />
+        <RootStack.Screen name={Route.LOG_STACK} component={LogStack} />
         {/* TODO error screen */}
         {/* <Stack.Screen name={} component={} />  */}
       </RootStack.Navigator>

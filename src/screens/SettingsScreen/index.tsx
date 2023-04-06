@@ -7,7 +7,7 @@ import { Mode, useTheme } from 'src/hooks/useTheme';
 import { ROUTES_TITLE, Route } from 'src/routes/const';
 import { SettingsStackScreenProps } from 'src/routes/types';
 
-const SettingsScreen = ({ navigation }: SettingsStackScreenProps<'settingsTab'>) => {
+const SettingsScreen = ({ navigation }: SettingsStackScreenProps<Route.SETTINGS>) => {
   const { currentTheme, onThemeUpdate } = useTheme();
   const navigateToTestScreen = () => {
     navigation.navigate(Route.TEST_SCREEN, { id: '12313' });
@@ -38,4 +38,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
 export { SettingsScreen };

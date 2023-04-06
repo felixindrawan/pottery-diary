@@ -15,16 +15,8 @@ const SettingsStack = () => {
       }}
       initialRouteName={Route.SETTINGS}
     >
-      <Stack.Screen
-        name={Route.SETTINGS}
-        component={SettingsScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name={Route.TEST_SCREEN}
-        component={TestScreen}
-        options={{ headerShown: false }}
-      />
+      <Stack.Screen name={Route.SETTINGS} component={SettingsScreen} />
+      <Stack.Screen name={Route.TEST_SCREEN} component={TestScreen} />
     </Stack.Navigator>
   );
 };

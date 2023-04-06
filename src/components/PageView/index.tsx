@@ -12,9 +12,7 @@ export default function ScreenView({ children, headerProps }: ScreenViewProps) {
   const { currentTheme } = useTheme();
 
   return (
-    <SafeAreaView
-      style={{ ...styles.container, backgroundColor: getBGColor(currentTheme), flex: 1 }}
-    >
+    <SafeAreaView style={{ ...styles.container, backgroundColor: getBGColor(currentTheme) }}>
       <HeaderTitle {...headerProps} />
       {children}
     </SafeAreaView>

@@ -14,12 +14,9 @@ import { TimelineTab } from './TimelineTab';
 import ScreenView from 'src/components/PageView';
 import { Route, ROUTES_TITLE } from 'src/routes/const';
 import SaveButton from './SaveButton';
-import { useNavigation } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { LogStackScreenProps } from 'src/routes/types';
 
-export default function LogScreen({ navigation }: LogStackScreenProps<'logTab'>) {
+export default function LogScreen({ navigation }: LogStackScreenProps<Route.LOG>) {
   const {
     control,
     handleSubmit,
