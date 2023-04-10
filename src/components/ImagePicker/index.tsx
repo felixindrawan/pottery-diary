@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
     width: 150,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 10,
   },
 });
 
@@ -72,7 +71,11 @@ export default function ImagePicker({ images, setImages }: ImagePickerProps) {
         <Icon name="photo-camera" color={currentPrimaryColor} size={50} />
       </TouchableOpacity>
       {images.map((uri) => (
-        <Image source={{ uri }} style={styles.imagePickerContainer} key={uri} />
+        <Image
+          source={{ uri }}
+          style={{ ...styles.imagePickerContainer, marginLeft: 10 }}
+          key={uri}
+        />
       ))}
     </ScrollView>
   );
