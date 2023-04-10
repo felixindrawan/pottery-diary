@@ -35,7 +35,8 @@ export default function InformationTab({ control, errors }: InformationTabProps)
           name={LogField.NUMBER}
           label={LOG_FIELD_TITLES[LogField.NUMBER]}
           error={errors[LogField.NUMBER]}
-          placeholder="Insert number"
+          inputType="number"
+          placeholder="#"
         />
       </View>
       <FormField
