@@ -5,95 +5,9 @@ import { Icon } from 'src/components/Icon';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Text from 'src/components/Text';
 import { useTheme } from 'src/hooks/useTheme';
-import { ThrownStage, ThrownStageProperties, THROWN_FINISHED_LABEL } from '../../const';
 import moment from 'moment';
 import { formatMMDDYY } from 'src/utils/transform/DateTimeTransform';
-
-interface StageProps {
-  stage: ThrownStage; // TODO: Stage Profile
-  stageProps?: ThrownStageProperties; // TODO: Stage Profile
-  current?: boolean;
-  onNextStage?: () => void;
-  onPreviousStage?: () => void;
-}
-
-export function Stage({
-  current = false,
-  stage,
-  stageProps,
-  onNextStage,
-  onPreviousStage,
-}: StageProps) {
-  const { currentPrimaryColor } = useTheme();
-  return (
-    <View style={styles.stageContainer}>
-      <View
-        style={{
-          ...styles.buttonContainer,
-          backgroundColor: current ? currentPrimaryColor : 'transparent',
-        }}
-      >
-        {current ? (
-          <>
-            <TouchableOpacity
-              onPress={onNextStage}
-              style={{
-                ...styles.button,
-                borderTopLeftRadius: 24 / 2,
-                borderTopRightRadius: 24 / 2,
-                backgroundColor: currentPrimaryColor,
-              }}
-            >
-              <Icon name="keyboard-arrow-up" size={24} color={COLORS[Color.NEUTRAL_10]} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={onPreviousStage}
-              style={{
-                ...styles.button,
-                borderBottomLeftRadius: 24 / 2,
-                borderBottomRightRadius: 24 / 2,
-                backgroundColor: currentPrimaryColor,
-              }}
-            >
-              <Icon name="keyboard-arrow-down" size={24} color={COLORS[Color.NEUTRAL_10]} />
-            </TouchableOpacity>
-          </>
-        ) : (
-          <View
-            style={{
-              ...styles.circle,
-              backgroundColor: current
-                ? currentPrimaryColor
-                : getHexToAlpha(currentPrimaryColor, 0.6),
-            }}
-          ></View>
-        )}
-      </View>
-      <View
-        style={{
-          ...styles.fieldContainer,
-          backgroundColor: current ? currentPrimaryColor : getHexToAlpha(currentPrimaryColor, 0.6),
-        }}
-      >
-        <TouchableOpacity style={styles.fieldButton}>
-          <View style={styles.fieldTitle}>
-            <Text size={Size.LG} style={{ color: COLORS[Color.NEUTRAL_10] }}>
-              {THROWN_FINISHED_LABEL[stage]}
-            </Text>
-            <Text size={Size.LG} style={{ color: COLORS[Color.NEUTRAL_10] }}>
-              {formatMMDDYY(stageProps?.date || moment())}
-            </Text>
-          </View>
-          {stageProps?.notes && (
-            <View style={styles.fieldDesc}>
-              <Text style={{ color: COLORS[Color.NEUTRAL_10] }}>{stageProps.notes}</Text>
-            </View>
-          )}
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-}
+import { ThrownStage, ThrownStageProperties, THROWN_FINISHED_LABEL } from '../../const';
 
 const styles = StyleSheet.create({
   stageContainer: {
@@ -137,3 +51,89 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
 });
+
+interface StageProps {
+  stage: ThrownStage; // TODO: Stage Profile
+  stageProps: ThrownStageProperties; // TODO: Stage Profile
+  onNextStage: () => void;
+  onPreviousStage: () => void;
+  current: boolean;
+}
+
+export default function Stage({
+  stage,
+  stageProps,
+  onNextStage,
+  onPreviousStage,
+  current = false,
+}: StageProps) {
+  const { currentPrimaryColor } = useTheme();
+  return (
+    <View style={styles.stageContainer}>
+      <View
+        style={{
+          ...styles.buttonContainer,
+          backgroundColor: current ? currentPrimaryColor : 'transparent',
+        }}
+      >
+        {current ? (
+          <>
+            <TouchableOpacity
+              onPress={onNextStage}
+              style={{
+                ...styles.button,
+                borderTopLeftRadius: 24 / 2,
+                borderTopRightRadius: 24 / 2,
+                backgroundColor: currentPrimaryColor,
+              }}
+            >
+              <Icon name="keyboard-arrow-up" size={24} color={COLORS[Color.NEUTRAL_10]} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={onPreviousStage}
+              style={{
+                ...styles.button,
+                borderBottomLeftRadius: 24 / 2,
+                borderBottomRightRadius: 24 / 2,
+                backgroundColor: currentPrimaryColor,
+              }}
+            >
+              <Icon name="keyboard-arrow-down" size={24} color={COLORS[Color.NEUTRAL_10]} />
+            </TouchableOpacity>
+          </>
+        ) : (
+          <View
+            style={{
+              ...styles.circle,
+              backgroundColor: current
+                ? currentPrimaryColor
+                : getHexToAlpha(currentPrimaryColor, 0.6),
+            }}
+          />
+        )}
+      </View>
+      <View
+        style={{
+          ...styles.fieldContainer,
+          backgroundColor: current ? currentPrimaryColor : getHexToAlpha(currentPrimaryColor, 0.6),
+        }}
+      >
+        <TouchableOpacity style={styles.fieldButton}>
+          <View style={styles.fieldTitle}>
+            <Text size={Size.LG} style={{ color: COLORS[Color.NEUTRAL_10] }}>
+              {THROWN_FINISHED_LABEL[stage]}
+            </Text>
+            <Text size={Size.LG} style={{ color: COLORS[Color.NEUTRAL_10] }}>
+              {formatMMDDYY(stageProps?.date || moment())}
+            </Text>
+          </View>
+          {stageProps?.notes && (
+            <View style={styles.fieldDesc}>
+              <Text style={{ color: COLORS[Color.NEUTRAL_10] }}>{stageProps.notes}</Text>
+            </View>
+          )}
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+}

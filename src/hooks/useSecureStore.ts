@@ -2,18 +2,18 @@ import * as SecureStore from 'expo-secure-store';
 import { Dispatch, SetStateAction, useCallback, useState, useEffect } from 'react';
 import { error } from 'src/utils';
 
-export const useSecureStore = <T>(
+const useSecureStore = <T>(
   key: string,
   initialValue?: T,
 ): [T, Dispatch<SetStateAction<T>>, () => void] => {
   const [storageValue, setStorageValue] = useState<T>(initialValue);
-  const [updated, setUpdated] = useState<Boolean>(false);
+  const [updated, setUpdated] = useState<boolean>(false);
 
-  const clearSecureStoreItem = async () => {
+  const clearSecureStoreItem = useCallback(async () => {
     setStorageValue(null);
     await SecureStore.deleteItemAsync(key);
-  };
-  const getSecureStoreItem = async () => {
+  }, [key]);
+  const getSecureStoreItem = useCallback(async () => {
     if (typeof window !== 'undefined') {
       let value = initialValue;
       try {
@@ -21,31 +21,34 @@ export const useSecureStore = <T>(
         if (storageItem !== 'undefined' && storageItem !== null)
           value = JSON.parse(storageItem as string);
       } catch (e) {
-        error(`Get SecureStore Error: ${e.toString()}`);
+        error(`Get SecureStore Error: ${e?.toString()}`);
       } finally {
         setStorageValue(value);
         setUpdated(true);
       }
     } else setStorageValue(initialValue);
-  };
-  const setSecureStoreItem = useCallback(async (newValue: T) => {
-    if (typeof window !== 'undefined') {
-      try {
-        if (newValue !== 'undefined' && newValue !== null) {
-          await SecureStore.setItemAsync(key, JSON.stringify(newValue ?? null));
-        } else {
-          clearSecureStoreItem();
+  }, [initialValue, key]);
+  const setSecureStoreItem = useCallback(
+    async (newValue: T) => {
+      if (typeof window !== 'undefined') {
+        try {
+          if (newValue !== 'undefined' && newValue !== null) {
+            await SecureStore.setItemAsync(key, JSON.stringify(newValue ?? null));
+          } else {
+            clearSecureStoreItem();
+          }
+        } catch (e) {
+          error(`Set SecureStore Error: ${e?.toString()}`);
+        } finally {
+          setUpdated(false);
+          getSecureStoreItem();
         }
-      } catch (e) {
-        error(`Set SecureStore Error: ${e.toString()}`);
-      } finally {
-        setUpdated(false);
-        getSecureStoreItem();
+      } else {
+        return initialValue;
       }
-    } else {
-      return initialValue;
-    }
-  }, []);
+    },
+    [clearSecureStoreItem, getSecureStoreItem, initialValue, key],
+  );
 
   useEffect(() => {
     getSecureStoreItem();
@@ -53,3 +56,5 @@ export const useSecureStore = <T>(
 
   return [storageValue, setSecureStoreItem, clearSecureStoreItem];
 };
+
+export default useSecureStore;

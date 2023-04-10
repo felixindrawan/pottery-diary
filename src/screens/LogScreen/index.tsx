@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import moment from 'moment';
 import { useForm } from 'react-hook-form';
 import MaterialTopTab from 'src/components/MaterialTopTab';
@@ -8,15 +8,26 @@ import {
   LogTab,
   LOG_TAB_TITLES,
   ThrownStage,
+  ThrownStages,
 } from 'src/screens/LogScreen/const';
-import { InformationTab } from './InformationTab';
-import { TimelineTab } from './TimelineTab';
 import ScreenView from 'src/components/PageView';
-import { Route, ROUTES_TITLE } from 'src/routes/const';
-import SaveButton from './SaveButton';
 import { LogStackScreenProps } from 'src/routes/types';
+import { Route } from 'src/routes/const';
+import ImagePicker from 'src/components/ImagePicker';
+import SaveButton from './SaveButton';
+import TimelineTab from './TimelineTab';
+import InformationTab from './InformationTab';
+
+const DEFAULT_TITLE = 'Untitled';
 
 export default function LogScreen({ navigation }: LogStackScreenProps<Route.LOG>) {
+  const [title, setTitle] = useState<string>(DEFAULT_TITLE);
+  const [images, setImages] = useState<string[]>([]);
+  const [stage, setStage] = useState<ThrownStages>({
+    [ThrownStage.THROWN]: {
+      date: moment(),
+    },
+  });
   const {
     control,
     handleSubmit,
@@ -24,7 +35,7 @@ export default function LogScreen({ navigation }: LogStackScreenProps<Route.LOG>
   } = useForm<LogFieldTypes>({
     // TODO: Stage Profile
     defaultValues: {
-      [LogField.TITLE]: 'Untitled',
+      [LogField.TITLE]: DEFAULT_TITLE,
       [LogField.STAGE]: {
         [ThrownStage.THROWN]: {
           date: moment(),
@@ -32,10 +43,16 @@ export default function LogScreen({ navigation }: LogStackScreenProps<Route.LOG>
       },
     },
   });
-  // @ts-ignore TODO: TYPE
-  const Timeline = useCallback(() => <TimelineTab control={control} errors={errors} />, []);
-  // @ts-ignore TODO: TYPE
-  const Information = useCallback(() => <InformationTab control={control} errors={errors} />, []);
+
+  const onSaveLog = useCallback(() => {
+    // handleSubmit();
+  }, []);
+  const Timeline = useCallback(() => <TimelineTab stage={stage} setStage={setStage} />, [stage]);
+  // TODO: TYPE
+  const Information = useCallback(
+    () => <InformationTab control={control} errors={errors} />,
+    [control, errors],
+  );
   const LOG_TABS = [
     {
       name: LogTab.TIMELINE,
@@ -51,10 +68,11 @@ export default function LogScreen({ navigation }: LogStackScreenProps<Route.LOG>
     <ScreenView
       headerProps={{
         onBack: () => navigation.pop(),
-        title: ROUTES_TITLE[Route.LOG],
-        extra: <SaveButton />,
+        title,
+        extra: <SaveButton onPress={onSaveLog} />,
       }}
     >
+      <ImagePicker images={images} setImages={setImages} />
       <MaterialTopTab TABS={LOG_TABS} LABELS={LOG_TAB_TITLES} />
     </ScreenView>
   );

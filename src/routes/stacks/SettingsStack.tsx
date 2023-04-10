@@ -1,13 +1,12 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { Route } from 'src/routes/const';
-import { SettingsScreen } from 'src/screens/SettingsScreen';
+import SettingsScreen from 'src/screens/SettingsScreen';
+import TestScreen from 'src/screens/SettingsScreen/TestScreen';
 import { SettingsStackParamList } from '../types';
-import { TestScreen } from 'src/screens/SettingsScreen/TestScreen';
-import { APP_ENV } from '@env';
 
 const Stack = createStackNavigator<SettingsStackParamList>();
 
-const SettingsStack = () => {
+function SettingsStack() {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -19,6 +18,6 @@ const SettingsStack = () => {
       <Stack.Screen name={Route.TEST_SCREEN} component={TestScreen} />
     </Stack.Navigator>
   );
-};
+}
 
-export { SettingsStack };
+export default SettingsStack;

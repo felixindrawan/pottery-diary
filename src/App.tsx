@@ -1,7 +1,6 @@
 import * as Sentry from 'sentry-expo';
 import { StatusBar } from 'expo-status-bar';
 import { APP_ENV, SENTRY_DSN } from '@env';
-import { Fragment } from 'react';
 import RootNavigator from 'src/routes/RootNavigator';
 import { ThemeProvider } from 'src/hooks/useTheme';
 
@@ -15,13 +14,14 @@ Sentry.init({
   debug: APP_ENV === 'dev',
 });
 
-const App = () => {
+function App() {
   return (
     <ThemeProvider>
+      {/* eslint-disable-next-line react/style-prop-object */}
       <StatusBar style="auto" />
       <RootNavigator />
     </ThemeProvider>
   );
-};
+}
 
 export default App;
