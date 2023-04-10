@@ -1,17 +1,21 @@
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Icon } from 'src/components/Icon';
-import View from 'src/components/View';
 
-export default function SaveButton() {
+interface SaveButtonProps {
+  onPress: () => void;
+}
+
+export default function SaveButton({ onPress }: SaveButtonProps) {
   return (
-    <View
+    <TouchableOpacity
       style={{
         paddingLeft: 10,
-        paddingRight: 10,
         gap: 5,
         flexDirection: 'row',
       }}
+      onPress={onPress}
     >
       <Icon name="save" />
-    </View>
+    </TouchableOpacity>
   );
 }

@@ -70,6 +70,6 @@ export type HomeStackScreenProps<T extends keyof HomeStackParamList> = Composite
 
 declare global {
   namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
+    type RootParamList = RootStackParamList;
   }
 }

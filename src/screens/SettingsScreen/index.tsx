@@ -7,7 +7,15 @@ import { Mode, useTheme } from 'src/hooks/useTheme';
 import { ROUTES_TITLE, Route } from 'src/routes/const';
 import { SettingsStackScreenProps } from 'src/routes/types';
 
-const SettingsScreen = ({ navigation }: SettingsStackScreenProps<Route.SETTINGS>) => {
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
+export default function SettingsScreen({ navigation }: SettingsStackScreenProps<Route.SETTINGS>) {
   const { currentTheme, onThemeUpdate } = useTheme();
   const navigateToTestScreen = () => {
     navigation.navigate(Route.TEST_SCREEN, { id: '12313' });
@@ -23,20 +31,10 @@ const SettingsScreen = ({ navigation }: SettingsStackScreenProps<Route.SETTINGS>
         <Text>
           Light Mode: <Switch onValueChange={onThemeUpdate} value={currentTheme === Mode.Light} />
         </Text>
-        {APP_ENV == 'dev' ? (
-          <Button title={'Go to test screen'} onPress={navigateToTestScreen} />
+        {APP_ENV === 'dev' ? (
+          <Button title="Go to test screen" onPress={navigateToTestScreen} />
         ) : null}
       </View>
     </ScreenView>
   );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
-export { SettingsScreen };
+}

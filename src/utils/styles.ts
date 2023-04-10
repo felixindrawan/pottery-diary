@@ -20,8 +20,8 @@ export const COLORS: Record<Color, string> = {
 
 // https://stackoverflow.com/questions/19799777
 export function getHexToAlpha(color: string, opacity: number) {
-  const _opacity = Math.round(Math.min(Math.max(opacity || 1, 0), 1) * 255);
-  return color + _opacity.toString(16).toUpperCase();
+  const opacityNum = Math.round(Math.min(Math.max(opacity || 1, 0), 1) * 255);
+  return color + opacityNum.toString(16).toUpperCase();
 }
 
 export enum Size {

@@ -2,17 +2,29 @@ import { StyleSheet } from 'react-native';
 import { Controller, FieldValues, UseControllerProps } from 'react-hook-form';
 import { Color, COLORS, getHexToAlpha, Size } from 'src/utils/styles';
 import Text from 'src/components/Text';
-import View from '../View';
 import { TextInput } from 'react-native-gesture-handler';
 import { getColor, useTheme } from 'src/hooks/useTheme';
+import View from 'src/components/View';
 
-export interface FormFieldProps extends UseControllerProps<FieldValues> {
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'column',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+  },
+  input: {
+    borderBottomWidth: 1,
+  },
+});
+
+export interface FormFieldProps extends Omit<UseControllerProps<FieldValues>, 'defaultValue'> {
   error?: any; // Should be FieldError;
   inputType?: 'text' | 'number' | 'select' | 'dropdown';
   label?: string;
   placeholder?: string;
+  defaultValue?: string;
 }
-export default function FormField<T>({
+export default function FormField({
   control,
   name,
   label,
@@ -20,6 +32,8 @@ export default function FormField<T>({
   error,
   inputType,
   placeholder = '',
+  defaultValue = '',
+  ...otherProps
 }: FormFieldProps) {
   const { currentTheme } = useTheme();
   let Input = TextInput;
@@ -40,6 +54,7 @@ export default function FormField<T>({
       name={name}
       control={control}
       rules={validation}
+      {...otherProps}
       render={({ field: { onChange } }) => (
         <View style={styles.container}>
           {label && (
@@ -68,14 +83,3 @@ export default function FormField<T>({
     />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-  },
-  input: {
-    borderBottomWidth: 1,
-  },
-});

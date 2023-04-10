@@ -1,6 +1,6 @@
-import { createContext, useCallback, useContext } from 'react';
+import { ReactNode, createContext, useCallback, useContext, useMemo } from 'react';
 import { Color, COLORS } from 'src/utils/styles';
-import { useSecureStore } from './useSecureStore';
+import useSecureStore from './useSecureStore';
 
 export enum Mode {
   Light = 'light',
@@ -22,7 +22,7 @@ const ThemeContext = createContext<ThemeContextProps>({
   currentPrimaryColor: COLORS[Color.PRIMARY_MAIN],
 });
 
-export function ThemeProvider({ children }) {
+export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useSecureStore('theme', Mode.Dark);
   const [primaryColor, setPrimaryColor] = useSecureStore(
     'primaryColor',
@@ -30,24 +30,23 @@ export function ThemeProvider({ children }) {
   );
   const onThemeUpdate = useCallback(
     (lightMode: boolean) => setTheme(lightMode ? Mode.Light : Mode.Dark),
-    [],
+    [setTheme],
   );
   const onPrimaryColorUpdate = useCallback(
     (newPrimaryColor: string) => setPrimaryColor(newPrimaryColor),
-    [],
+    [setPrimaryColor],
   );
-  return (
-    <ThemeContext.Provider
-      value={{
-        currentTheme: (theme ?? Mode.Dark) as Mode,
-        onThemeUpdate,
-        currentPrimaryColor: primaryColor ?? COLORS[Color.PRIMARY_MAIN],
-        onPrimaryColorUpdate,
-      }}
-    >
-      {children}
-    </ThemeContext.Provider>
+
+  const context = useMemo(
+    () => ({
+      currentTheme: (theme ?? Mode.Dark) as Mode,
+      onThemeUpdate,
+      currentPrimaryColor: primaryColor ?? COLORS[Color.PRIMARY_MAIN],
+      onPrimaryColorUpdate,
+    }),
+    [theme, onThemeUpdate, primaryColor, onPrimaryColorUpdate],
   );
+  return <ThemeContext.Provider value={context}>{children}</ThemeContext.Provider>;
 }
 
 export function useTheme() {

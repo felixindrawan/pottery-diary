@@ -5,11 +5,28 @@ import FormField, { FormFieldProps } from 'src/components/FormField';
 import Text from 'src/components/Text';
 import View from 'src/components/View';
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  fieldLabel: {
+    paddingTop: 10,
+    paddingHorizontal: 15,
+  },
+  fieldGroup: {
+    justifyContent: 'space-evenly',
+    flexDirection: 'row',
+  },
+  fieldSmall: {
+    width: '33%',
+  },
+});
+
 interface InformationTabProps extends Partial<FormFieldProps> {
   errors: FieldErrors<LogFieldTypes>;
 }
 
-export function InformationTab({ control, errors }: InformationTabProps) {
+export default function InformationTab({ control, errors }: InformationTabProps) {
   return (
     <View style={styles.container}>
       <FormField
@@ -29,8 +46,8 @@ export function InformationTab({ control, errors }: InformationTabProps) {
       <FormField
         control={control}
         name={LogField.GLAZE}
-        label={LOG_FIELD_TITLES[LogField.UNDERGLAZE]}
-        error={errors[LogField.UNDERGLAZE]}
+        label={LOG_FIELD_TITLES[LogField.GLAZE]}
+        error={errors[LogField.GLAZE]}
         placeholder="Insert glaze(s)"
       />
       {/* TODO: Add measurements #28 */}
@@ -84,20 +101,3 @@ export function InformationTab({ control, errors }: InformationTabProps) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  fieldLabel: {
-    paddingTop: 10,
-    paddingHorizontal: 15,
-  },
-  fieldGroup: {
-    justifyContent: 'space-evenly',
-    flexDirection: 'row',
-  },
-  fieldSmall: {
-    width: '33%',
-  },
-});

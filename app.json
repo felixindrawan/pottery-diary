@@ -15,19 +15,39 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.potterydiary.potterydiary"
+      "bundleIdentifier": "com.potterydiary.potterydiary",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Allow Pottery Diary to use the camera to take photos",
+        "NSPhotoLibraryAddUsageDescription": "Allow Pottery Diary to save photos",
+        "NSPhotoLibraryUsageDescription": "Allow Pottery Diary to include photos from your Camera Roll"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.potterydiary.potterydiary"
+      "package": "com.potterydiary.potterydiary",
+      "permissions": [
+        "CAMERA",
+        "MANAGE_DOCUMENTS",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": ["sentry-expo"],
+    "plugins": [
+      "sentry-expo",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow PotteryDiary to access your photos",
+          "cameraPermission": "Allow PotteryDiary to access your camera"
+        }
+      ]
+    ],
     "hooks": {
       "postPublish": [
         {

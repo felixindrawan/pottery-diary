@@ -5,6 +5,12 @@ import ScreenView from 'src/components/PageView';
 import SearchAndFilter from './SearchAndFilter';
 import Home from './Home';
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
+
 export default function HomeScreen() {
   return (
     <ScreenView
@@ -19,9 +25,3 @@ export default function HomeScreen() {
     </ScreenView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

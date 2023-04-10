@@ -1,52 +1,30 @@
-import { Dispatch, useState } from 'react';
+import { Dispatch } from 'react';
 import { StyleSheet } from 'react-native';
-import { FieldErrors } from 'react-hook-form';
-import moment from 'moment';
+import View from 'src/components/View';
 import {
   getCurrentStage,
-  LogFieldTypes,
   sortStages,
   ThrownStage,
   ThrownStages,
   THROWN_ORDER,
 } from 'src/screens/LogScreen/const';
-import { Stage } from 'src/screens/LogScreen/TimelineTab/Stage';
-import View from 'src/components/View';
-import { FormFieldProps } from 'src/components/FormField';
+import moment from 'moment';
 import { reverseObject } from 'src/utils/transform/ObjectTransform';
+import Stage from './Stage';
 
-interface TimelineTabProps extends Partial<FormFieldProps> {
-  errors: FieldErrors<LogFieldTypes>;
-}
-
-export function TimelineTab({ control, errors }: TimelineTabProps) {
-  const [stage, setStage] = useState<ThrownStages>({
-    [ThrownStage.THROWN]: {
-      date: moment(),
-    },
-  });
-  return (
-    <View style={styles.container}>
-      {sortStages(stage).map((s, i) => (
-        <Stage
-          key={s}
-          stage={s}
-          stageProps={stage[s]}
-          current={i === 0}
-          onNextStage={() => onNextStage(stage, setStage)}
-          onPreviousStage={() => onPreviousStage(stage, setStage)}
-        />
-      ))}
-    </View>
-  );
-}
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: 10,
+  },
+});
 
 // Helper Functions
 function onNextStage(stages: ThrownStages, setCurrentStage: Dispatch<ThrownStages>): void {
   // TODO: Stage Profile
   const currentStage = getCurrentStage(stages);
   if (currentStage === ThrownStage.FINISHED) {
-    return; // Can't go next on FINISHED
+    // Can't go next on FINISHED
   } else {
     const STAGE_ORDER = reverseObject(THROWN_ORDER);
     setCurrentStage({
@@ -64,7 +42,7 @@ function onPreviousStage(stages: ThrownStages, setCurrentStage: Dispatch<ThrownS
   // TODO: Stage Profile
   const currentStage = getCurrentStage(stages);
   if (currentStage === ThrownStage.TODO) {
-    return; // Can't go prev on TODO
+    // Can't go prev on TODO
   } else if (currentStage === ThrownStage.THROWN) {
     setCurrentStage({
       ...stages,
@@ -87,9 +65,24 @@ function onPreviousStage(stages: ThrownStages, setCurrentStage: Dispatch<ThrownS
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 10,
-  },
-});
+interface TimelineTabProps {
+  stage: ThrownStages;
+  setStage: Dispatch<ThrownStages>;
+}
+
+export default function TimelineTab({ stage, setStage }: TimelineTabProps) {
+  return (
+    <View style={styles.container}>
+      {sortStages(stage).map((s, i) => (
+        <Stage
+          key={s}
+          stage={s}
+          stageProps={stage[s]}
+          current={i === 0}
+          onNextStage={() => onNextStage(stage, setStage)}
+          onPreviousStage={() => onPreviousStage(stage, setStage)}
+        />
+      ))}
+    </View>
+  );
+}
