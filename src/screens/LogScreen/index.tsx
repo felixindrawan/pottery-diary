@@ -13,7 +13,8 @@ import {
 import ScreenView from 'src/components/PageView';
 import { LogStackScreenProps } from 'src/routes/types';
 import { Route } from 'src/routes/const';
-import ImagePicker from 'src/components/ImagePicker';
+import ImagePicker, { LogImage } from 'src/components/ImagePicker';
+import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView';
 import SaveButton from './SaveButton';
 import TimelineTab from './TimelineTab';
 import InformationTab from './InformationTab';
@@ -22,7 +23,7 @@ const DEFAULT_TITLE = 'Untitled';
 
 export default function LogScreen({ navigation }: LogStackScreenProps<Route.LOG>) {
   const [title, setTitle] = useState<string>(DEFAULT_TITLE);
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<LogImage[]>([]);
   const [stage, setStage] = useState<ThrownStages>({
     [ThrownStage.THROWN]: {
       date: moment(),
@@ -35,7 +36,7 @@ export default function LogScreen({ navigation }: LogStackScreenProps<Route.LOG>
   } = useForm<LogFieldTypes>({
     // TODO: Stage Profile
     defaultValues: {
-      [LogField.TITLE]: DEFAULT_TITLE,
+      [LogField.TITLE]: title,
       [LogField.STAGE]: {
         [ThrownStage.THROWN]: {
           date: moment(),
@@ -47,10 +48,21 @@ export default function LogScreen({ navigation }: LogStackScreenProps<Route.LOG>
   const onSaveLog = useCallback(() => {
     // handleSubmit();
   }, []);
-  const Timeline = useCallback(() => <TimelineTab stage={stage} setStage={setStage} />, [stage]);
+  const Timeline = useCallback(
+    () => (
+      <KeyboardAwareScrollView>
+        <TimelineTab stage={stage} setStage={setStage} />
+      </KeyboardAwareScrollView>
+    ),
+    [stage],
+  );
   // TODO: TYPE
   const Information = useCallback(
-    () => <InformationTab control={control} errors={errors} />,
+    () => (
+      <KeyboardAwareScrollView>
+        <InformationTab control={control} errors={errors} />
+      </KeyboardAwareScrollView>
+    ),
     [control, errors],
   );
   const LOG_TABS = [
@@ -63,7 +75,6 @@ export default function LogScreen({ navigation }: LogStackScreenProps<Route.LOG>
       component: Information,
     },
   ];
-
   return (
     <ScreenView
       headerProps={{

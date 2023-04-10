@@ -41,6 +41,7 @@
     "@typescript-eslint/no-shadow": ["error"],
     "import/no-extraneous-dependencies": "off",
     "react/no-unstable-nested-components": ["error", { "allowAsProps": true }],
-    "react/function-component-definition": "off"
+    "react/function-component-definition": "off",
+    "react/jsx-props-no-spreading": "off" //TODO CHECK!!
   }
 }

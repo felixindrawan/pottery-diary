@@ -6,6 +6,7 @@ import { Icon } from 'src/components/Icon';
 import { useMediaPermissions } from 'src/hooks/useMediaPermissions';
 import { useTheme } from 'src/hooks/useTheme';
 import { RADIUS } from 'src/utils/styles';
+import { randomUUID } from 'expo-crypto';
 
 const styles = StyleSheet.create({
   imagePickerContainer: {
@@ -18,9 +19,14 @@ const styles = StyleSheet.create({
   },
 });
 
+export interface LogImage {
+  id: string;
+  source: string;
+}
+
 interface ImagePickerProps {
-  images: string[];
-  setImages: Dispatch<string[]>;
+  images: LogImage[];
+  setImages: Dispatch<LogImage[]>;
 }
 
 export default function ImagePicker({ images, setImages }: ImagePickerProps) {
@@ -47,8 +53,8 @@ export default function ImagePicker({ images, setImages }: ImagePickerProps) {
       base64: true,
       quality: 1,
     });
-    if (result) {
-      setImages([...images, result?.assets?.[0]?.uri as string]);
+    if (result?.assets?.[0]?.uri) {
+      setImages([...images, { id: randomUUID(), source: result.assets[0].uri as string }]);
     }
   }, [
     cameraPermissionStatus,
@@ -70,11 +76,11 @@ export default function ImagePicker({ images, setImages }: ImagePickerProps) {
       >
         <Icon name="photo-camera" color={currentPrimaryColor} size={50} />
       </TouchableOpacity>
-      {images.map((uri) => (
+      {images.map(({ source, id }) => (
         <Image
-          source={{ uri }}
+          source={{ uri: source }}
           style={{ ...styles.imagePickerContainer, marginLeft: 10 }}
-          key={uri}
+          key={id}
         />
       ))}
     </ScrollView>

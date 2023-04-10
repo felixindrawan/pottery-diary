@@ -29,6 +29,22 @@ interface InformationTabProps extends Partial<FormFieldProps> {
 export default function InformationTab({ control, errors }: InformationTabProps) {
   return (
     <View style={styles.container}>
+      <View style={styles.fieldSmall}>
+        <FormField
+          control={control}
+          name={LogField.NUMBER}
+          label={LOG_FIELD_TITLES[LogField.NUMBER]}
+          error={errors[LogField.NUMBER]}
+          placeholder="Insert number"
+        />
+      </View>
+      <FormField
+        control={control}
+        name={LogField.TITLE}
+        label={LOG_FIELD_TITLES[LogField.TITLE]}
+        error={errors[LogField.TITLE]}
+        placeholder="Insert title"
+      />
       <FormField
         control={control}
         name={LogField.CLAY}
