@@ -42,6 +42,7 @@
     "import/no-extraneous-dependencies": "off",
     "react/no-unstable-nested-components": ["error", { "allowAsProps": true }],
     "react/function-component-definition": "off",
-    "react/jsx-props-no-spreading": "off" //TODO CHECK!!
+    "react/jsx-props-no-spreading": "off", //TODO CHECK!!
+    "no-nested-ternary": "off"
   }
 }

@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TextInputProps } from 'react-native';
 import { Controller, FieldValues, UseControllerProps } from 'react-hook-form';
 import { Color, COLORS, getHexToAlpha, Size } from 'src/utils/styles';
 import Text from 'src/components/Text';
@@ -22,7 +22,7 @@ export interface FormFieldProps extends Omit<UseControllerProps<FieldValues>, 'd
   inputType?: 'text' | 'number' | 'select' | 'dropdown';
   label?: string;
   placeholder?: string;
-  defaultValue?: string;
+  inputProps?: any; // TOOD
 }
 export default function FormField({
   control,
@@ -32,7 +32,7 @@ export default function FormField({
   error,
   inputType,
   placeholder = '',
-  defaultValue = '',
+  inputProps = {},
   ...otherProps
 }: FormFieldProps) {
   const { currentTheme } = useTheme();
@@ -40,8 +40,7 @@ export default function FormField({
   let validation = rules;
   switch (inputType) {
     case 'number':
-      validation = { ...validation };
-      // @ts-ignore TODO
+      validation = { ...validation }; // TODO
       Input = (props) => <TextInput keyboardType="numeric" {...props} />;
       break;
     case 'text':
@@ -72,6 +71,7 @@ export default function FormField({
             }}
             placeholder={placeholder}
             placeholderTextColor={getHexToAlpha(getColor(currentTheme), 0.4)}
+            {...inputProps}
           />
           {error && (
             <Text size={Size.SM} style={{ color: COLORS[Color.RED] }}>

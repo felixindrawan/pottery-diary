@@ -1,4 +1,7 @@
 import { Moment } from 'moment';
+import { LogImage } from 'src/components/ImagePicker';
+import { ThrownStages } from './TimelineTab/Profiles/Thrown/const';
+import { HandbuildStages } from './TimelineTab/Profiles/Handbuild/const';
 
 export enum LogTab {
   TIMELINE = 'timeline',
@@ -16,11 +19,12 @@ export enum LogType {
 }
 
 export const LOG_TYPES: Record<LogType, string> = {
-  [LogType.THROW]: 'Wheel Throw',
+  [LogType.THROW]: 'Wheel Thrown',
   [LogType.HANDBUILD]: 'Handbuild',
 };
 
 export enum LogField {
+  IMAGES = 'images',
   TYPE = 'type',
   NUMBER = 'index',
   TITLE = 'title',
@@ -37,10 +41,11 @@ export enum LogField {
 }
 
 export type LogFieldTypes = {
+  [LogField.IMAGES]: LogImage[];
   [LogField.TYPE]: LogType;
   [LogField.NUMBER]?: string;
   [LogField.TITLE]?: string;
-  [LogField.STAGE]: ThrownStages; // TODO: Stage Profile
+  [LogField.STAGE]: ThrownStages | HandbuildStages; // TODO: Stage Profile
   [LogField.CLAY]?: string[];
   [LogField.UNDERGLAZE]?: string[];
   [LogField.GLAZE]?: string[];
@@ -53,6 +58,7 @@ export type LogFieldTypes = {
 };
 
 export const LOG_FIELD_TITLES: Record<LogField, string> = {
+  [LogField.IMAGES]: 'Images',
   [LogField.TYPE]: 'Type',
   [LogField.NUMBER]: 'Number',
   [LogField.TITLE]: 'Title',
@@ -68,62 +74,28 @@ export const LOG_FIELD_TITLES: Record<LogField, string> = {
   [LogField.WIDTH]: 'W',
 };
 
-export enum ThrownStage {
-  TODO = 'todo',
-  THROWN = 'thrown',
-  TRIMMED = 'trimmed',
-  BISQUED = 'bisqued',
-  GLAZED = 'glazed',
-  FINISHED = 'finished',
-}
-
-export interface ThrownStageProperties {
+export interface StageProperties {
   notes?: string;
   date?: Moment;
 }
 
-export type ThrownStages = Partial<Record<ThrownStage, ThrownStageProperties>>;
+export type Stages = ThrownStages | HandbuildStages;
 
-export const THROWN_ORDER: Record<ThrownStage, number> = {
-  [ThrownStage.TODO]: 0,
-  [ThrownStage.THROWN]: 1,
-  [ThrownStage.TRIMMED]: 2,
-  [ThrownStage.BISQUED]: 3,
-  [ThrownStage.GLAZED]: 4,
-  [ThrownStage.FINISHED]: 5,
-};
-
-export const THROWN_ACTION_LABEL: Record<ThrownStage, string> = {
-  [ThrownStage.TODO]: 'To Do',
-  [ThrownStage.THROWN]: 'Throwing',
-  [ThrownStage.TRIMMED]: 'Trimming',
-  [ThrownStage.BISQUED]: 'Bisque Firing',
-  [ThrownStage.GLAZED]: 'Glaze Firing',
-  [ThrownStage.FINISHED]: 'Finished',
-};
-
-export const THROWN_FINISHED_LABEL: Record<ThrownStage, string> = {
-  [ThrownStage.TODO]: 'To Do',
-  [ThrownStage.THROWN]: 'Thrown',
-  [ThrownStage.TRIMMED]: 'Trimmed',
-  [ThrownStage.BISQUED]: 'Bisqued',
-  [ThrownStage.GLAZED]: 'Glazed',
-  [ThrownStage.FINISHED]: 'Finished',
-};
-
-// Srot stages by THROWN_ORDER
-export function sortStages(stages: ThrownStages): ThrownStage[] {
+// Sort stages by ORDER
+export function sortStages<K extends string>(
+  stages: Partial<Record<K, StageProperties>>,
+  ORDER: Record<K, number>,
+): K[] {
   // TODO: Stage Profile
   return Object.keys(stages)
-    .sort(
-      (a, b) =>
-        (THROWN_ORDER?.[b as ThrownStage] ?? Infinity) -
-        (THROWN_ORDER?.[a as ThrownStage] ?? Infinity),
-    )
-    .filter((stage) => !!stages[stage as ThrownStage]?.date) as ThrownStage[];
+    .sort((a, b) => (ORDER?.[b as K] ?? Infinity) - (ORDER?.[a as K] ?? Infinity))
+    .filter((stage) => !!stages[stage as K]?.date) as K[];
 }
 
 // Sort order of stages and get the latest with date
-export function getCurrentStage(stages: ThrownStages): ThrownStage {
-  return sortStages(stages)[0] as ThrownStage;
+export function getCurrentStage<K extends string>(
+  stages: Partial<Record<K, StageProperties>>,
+  ORDER: Record<K, number>,
+): K {
+  return sortStages(stages, ORDER)[0] as K;
 }

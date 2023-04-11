@@ -7,7 +7,8 @@ import Text from 'src/components/Text';
 import { useTheme } from 'src/hooks/useTheme';
 import moment from 'moment';
 import { formatMMDDYY } from 'src/utils/transform/DateTimeTransform';
-import { ThrownStage, ThrownStageProperties, THROWN_FINISHED_LABEL } from '../../const';
+import { StageProperties } from '../../../const';
+import { THROWN_FINISHED_LABEL, ThrownStage } from './const';
 
 const styles = StyleSheet.create({
   stageContainer: {
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
 
 interface StageProps {
   stage: ThrownStage; // TODO: Stage Profile
-  stageProps: ThrownStageProperties; // TODO: Stage Profile
+  stageProps: StageProperties; // TODO: Stage Profile
   onNextStage: () => void;
   onPreviousStage: () => void;
   current: boolean;

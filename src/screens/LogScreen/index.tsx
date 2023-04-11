@@ -7,8 +7,8 @@ import {
   LogFieldTypes,
   LogTab,
   LOG_TAB_TITLES,
-  ThrownStage,
-  ThrownStages,
+  LogType,
+  Stages,
 } from 'src/screens/LogScreen/const';
 import ScreenView from 'src/components/PageView';
 import { LogStackScreenProps } from 'src/routes/types';
@@ -18,13 +18,16 @@ import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView';
 import SaveButton from './SaveButton';
 import TimelineTab from './TimelineTab';
 import InformationTab from './InformationTab';
+import { ThrownStage, getDefaultThrownStage } from './TimelineTab/Profiles/Thrown/const';
+import { getDefaultHandbuildStage } from './TimelineTab/Profiles/Handbuild/const';
 
 const DEFAULT_TITLE = 'Untitled';
 
 export default function LogScreen({ navigation }: LogStackScreenProps<Route.LOG>) {
   const [title, setTitle] = useState<string>(DEFAULT_TITLE);
   const [images, setImages] = useState<LogImage[]>([]);
-  const [stage, setStage] = useState<ThrownStages>({
+  const [type, setType] = useState<LogType>(LogType.THROW);
+  const [stage, setStage] = useState<Stages>({
     [ThrownStage.THROWN]: {
       date: moment(),
     },
@@ -33,28 +36,54 @@ export default function LogScreen({ navigation }: LogStackScreenProps<Route.LOG>
     control,
     handleSubmit,
     formState: { errors },
+    getValues,
+    setValue,
   } = useForm<LogFieldTypes>({
     // TODO: Stage Profile
-    defaultValues: {
-      [LogField.TITLE]: title,
-      [LogField.STAGE]: {
-        [ThrownStage.THROWN]: {
-          date: moment(),
-        },
-      },
-    },
+    defaultValues: { ...getDefaultThrownStage(), [LogField.TITLE]: DEFAULT_TITLE },
   });
 
   const onSaveLog = useCallback(() => {
     // handleSubmit();
   }, []);
+  const onSetImages = useCallback(
+    (newImages: LogImage[]) => {
+      setValue(LogField.IMAGES, newImages);
+      setImages(newImages);
+    },
+    [setValue],
+  );
+  const onSetStage = useCallback(
+    (newStage: Stages) => {
+      setValue(LogField.STAGE, newStage);
+      setStage(newStage);
+    },
+    [setValue],
+  );
+  const onSetType = useCallback(
+    (newType: LogType) => {
+      setValue(LogField.TYPE, newType);
+      setType(newType);
+
+      // Reset stages to default values
+      switch (newType) {
+        case LogType.THROW:
+          onSetStage(getDefaultThrownStage());
+          break;
+        case LogType.HANDBUILD:
+          onSetStage(getDefaultHandbuildStage());
+          break;
+        default:
+          break;
+      }
+    },
+    [onSetStage, setValue],
+  );
+
+  // TABS
   const Timeline = useCallback(
-    () => (
-      <KeyboardAwareScrollView>
-        <TimelineTab stage={stage} setStage={setStage} />
-      </KeyboardAwareScrollView>
-    ),
-    [stage],
+    () => <TimelineTab type={type} setType={onSetType} stage={stage} setStage={onSetStage} />,
+    [onSetStage, stage, type, onSetType],
   );
   // TODO: TYPE
   const Information = useCallback(
@@ -83,7 +112,7 @@ export default function LogScreen({ navigation }: LogStackScreenProps<Route.LOG>
         extra: <SaveButton onPress={onSaveLog} />,
       }}
     >
-      <ImagePicker images={images} setImages={setImages} />
+      <ImagePicker images={images} setImages={onSetImages} />
       <MaterialTopTab TABS={LOG_TABS} LABELS={LOG_TAB_TITLES} />
     </ScreenView>
   );

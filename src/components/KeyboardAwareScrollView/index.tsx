@@ -16,6 +16,7 @@ export default function KeyboardAwareScrollView({
   return (
     <RNKeyboardAwareScrollView
       enableOnAndroid
+      extraScrollHeight={150}
       style={{ backgroundColor: getBGColor(currentTheme) }}
       {...otherProps}
     >
