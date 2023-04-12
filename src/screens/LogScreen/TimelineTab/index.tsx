@@ -8,9 +8,10 @@ import {
   StageProperties,
 } from 'src/screens/LogScreen/const';
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView';
-import { Dropdown } from 'react-native-element-dropdown';
 import { RADIUS } from 'src/utils/styles';
 import { getColor, useTheme } from 'src/hooks/useTheme';
+import { Dispatch } from 'react';
+import { Dropdown } from 'react-native-element-dropdown';
 import Thrown from './Profiles/Thrown/Stage';
 import Handbuild from './Profiles/Handbuild/Stage';
 import {
@@ -42,14 +43,13 @@ const styles = StyleSheet.create({
 
 interface TimelineTabProps {
   type: LogType;
-  setType: (newStage: LogType) => void;
+  setType: Dispatch<LogType>;
   stage: Stages;
   setStage: (newStage: Stages) => void;
 }
 
-export default function TimelineTab({ stage, setStage, type, setType }: TimelineTabProps) {
+export default function TimelineTab({ type, setType, stage, setStage }: TimelineTabProps) {
   const { currentTheme, currentPrimaryColor } = useTheme();
-
   return (
     <View style={styles.container}>
       <Dropdown

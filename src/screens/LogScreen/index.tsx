@@ -36,11 +36,14 @@ export default function LogScreen({ navigation }: LogStackScreenProps<Route.LOG>
     control,
     handleSubmit,
     formState: { errors },
-    getValues,
     setValue,
   } = useForm<LogFieldTypes>({
     // TODO: Stage Profile
-    defaultValues: { ...getDefaultThrownStage(), [LogField.TITLE]: DEFAULT_TITLE },
+    defaultValues: {
+      [LogField.TITLE]: DEFAULT_TITLE,
+      [LogField.TYPE]: LogType.THROW,
+      [LogField.STAGE]: getDefaultThrownStage(),
+    },
   });
 
   const onSaveLog = useCallback(() => {
@@ -53,6 +56,25 @@ export default function LogScreen({ navigation }: LogStackScreenProps<Route.LOG>
     },
     [setValue],
   );
+  const onSetType = useCallback(
+    (newType: LogType) => {
+      setValue(LogField.TYPE, newType);
+      setType(newType);
+
+      // Reset Stages
+      switch (newType) {
+        case LogType.HANDBUILD:
+          setValue(LogField.STAGE, getDefaultHandbuildStage());
+          setStage(getDefaultHandbuildStage());
+          break;
+        case LogType.THROW:
+        default:
+          setValue(LogField.STAGE, getDefaultThrownStage());
+          setStage(getDefaultThrownStage());
+      }
+    },
+    [setValue],
+  );
   const onSetStage = useCallback(
     (newStage: Stages) => {
       setValue(LogField.STAGE, newStage);
@@ -60,30 +82,11 @@ export default function LogScreen({ navigation }: LogStackScreenProps<Route.LOG>
     },
     [setValue],
   );
-  const onSetType = useCallback(
-    (newType: LogType) => {
-      setValue(LogField.TYPE, newType);
-      setType(newType);
-
-      // Reset stages to default values
-      switch (newType) {
-        case LogType.THROW:
-          onSetStage(getDefaultThrownStage());
-          break;
-        case LogType.HANDBUILD:
-          onSetStage(getDefaultHandbuildStage());
-          break;
-        default:
-          break;
-      }
-    },
-    [onSetStage, setValue],
-  );
 
   // TABS
   const Timeline = useCallback(
     () => <TimelineTab type={type} setType={onSetType} stage={stage} setStage={onSetStage} />,
-    [onSetStage, stage, type, onSetType],
+    [type, stage, onSetStage, onSetType],
   );
   // TODO: TYPE
   const Information = useCallback(
@@ -109,7 +112,7 @@ export default function LogScreen({ navigation }: LogStackScreenProps<Route.LOG>
       headerProps={{
         onBack: () => navigation.pop(),
         title,
-        extra: <SaveButton onPress={onSaveLog} />,
+        extra: <SaveButton onPress={handleSubmit((data) => console.log(data))} />,
       }}
     >
       <ImagePicker images={images} setImages={onSetImages} />

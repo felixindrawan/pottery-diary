@@ -1,24 +1,24 @@
 import { StyleSheet } from 'react-native';
 import { FieldErrors } from 'react-hook-form';
 import { LOG_FIELD_TITLES, LogField, LogFieldTypes } from 'src/screens/LogScreen/const';
-import FormField, { FormFieldProps } from 'src/components/FormField';
+import FormField, { FormFieldProps, FormInputType } from 'src/components/FormField';
 import Text from 'src/components/Text';
 import View from 'src/components/View';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginHorizontal: 15,
+    marginBottom: 50,
+    rowGap: 15,
   },
-  fieldLabel: {
-    paddingTop: 10,
-    paddingHorizontal: 15,
-  },
+
   fieldGroup: {
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     flexDirection: 'row',
   },
   fieldSmall: {
-    width: '33%',
+    width: '28%',
   },
 });
 
@@ -35,7 +35,7 @@ export default function InformationTab({ control, errors }: InformationTabProps)
           name={LogField.NUMBER}
           label={LOG_FIELD_TITLES[LogField.NUMBER]}
           error={errors[LogField.NUMBER]}
-          inputType="number"
+          inputType={FormInputType.NUMBER}
           placeholder="#"
         />
       </View>
@@ -68,34 +68,36 @@ export default function InformationTab({ control, errors }: InformationTabProps)
         placeholder="Insert glaze(s)"
       />
       {/* TODO: Add measurements #28 */}
-      <Text style={styles.fieldLabel}>{LOG_FIELD_TITLES[LogField.DIMENSIONS]}</Text>
-      <View style={styles.fieldGroup}>
-        <View style={styles.fieldSmall}>
-          <FormField
-            control={control}
-            name={LogField.WIDTH}
-            error={errors[LogField.WIDTH]}
-            inputType="number"
-            placeholder="Width"
-          />
-        </View>
-        <View style={styles.fieldSmall}>
-          <FormField
-            control={control}
-            name={LogField.LENGTH}
-            error={errors[LogField.LENGTH]}
-            inputType="number"
-            placeholder="Length"
-          />
-        </View>
-        <View style={styles.fieldSmall}>
-          <FormField
-            control={control}
-            name={LogField.HEIGHT}
-            error={errors[LogField.HEIGHT]}
-            inputType="number"
-            placeholder="Height"
-          />
+      <View>
+        <Text>{LOG_FIELD_TITLES[LogField.DIMENSIONS]}</Text>
+        <View style={styles.fieldGroup}>
+          <View style={styles.fieldSmall}>
+            <FormField
+              control={control}
+              name={LogField.WIDTH}
+              error={errors[LogField.WIDTH]}
+              inputType={FormInputType.NUMBER}
+              placeholder="Width"
+            />
+          </View>
+          <View style={styles.fieldSmall}>
+            <FormField
+              control={control}
+              name={LogField.LENGTH}
+              error={errors[LogField.LENGTH]}
+              inputType={FormInputType.NUMBER}
+              placeholder="Length"
+            />
+          </View>
+          <View style={styles.fieldSmall}>
+            <FormField
+              control={control}
+              name={LogField.HEIGHT}
+              error={errors[LogField.HEIGHT]}
+              inputType={FormInputType.NUMBER}
+              placeholder="Height"
+            />
+          </View>
         </View>
       </View>
       <View style={styles.fieldSmall}>
@@ -104,7 +106,7 @@ export default function InformationTab({ control, errors }: InformationTabProps)
           name={LogField.WEIGHT}
           label={LOG_FIELD_TITLES[LogField.WEIGHT]}
           error={errors[LogField.WEIGHT]}
-          inputType="number"
+          inputType={FormInputType.NUMBER}
           placeholder="Weight"
         />
       </View>

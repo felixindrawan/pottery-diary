@@ -5,8 +5,8 @@ import { getBGColor, useTheme } from 'src/hooks/useTheme';
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
-    paddingTop: 0,
+    paddingHorizontal: 15,
+    paddingVertical: 0,
     gap: 15,
     flex: 1,
   },
