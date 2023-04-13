@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { APP_ENV, SENTRY_DSN } from '@env';
 import RootNavigator from 'src/routes/RootNavigator';
 import { ThemeProvider } from 'src/hooks/useTheme';
+import { LogProvider } from 'src/hooks/useLog';
 
 // Error Handling by Sentry
 Sentry.init({
@@ -17,9 +18,11 @@ Sentry.init({
 function App() {
   return (
     <ThemeProvider>
-      {/* eslint-disable-next-line react/style-prop-object */}
-      <StatusBar style="auto" />
-      <RootNavigator />
+      <LogProvider>
+        {/* eslint-disable-next-line react/style-prop-object */}
+        <StatusBar style="auto" />
+        <RootNavigator />
+      </LogProvider>
     </ThemeProvider>
   );
 }

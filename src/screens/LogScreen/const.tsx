@@ -24,6 +24,7 @@ export const LOG_TYPES: Record<LogType, string> = {
 };
 
 export enum LogField {
+  LID = 'lid', // Log ID
   IMAGES = 'images',
   TYPE = 'type',
   NUMBER = 'index',
@@ -41,6 +42,7 @@ export enum LogField {
 }
 
 export type LogFieldTypes = {
+  [LogField.LID]: string;
   [LogField.IMAGES]: LogImage[];
   [LogField.TYPE]: LogType;
   [LogField.NUMBER]?: string;
@@ -58,6 +60,7 @@ export type LogFieldTypes = {
 };
 
 export const LOG_FIELD_TITLES: Record<LogField, string> = {
+  [LogField.LID]: 'Log ID',
   [LogField.IMAGES]: 'Images',
   [LogField.TYPE]: 'Type',
   [LogField.NUMBER]: 'Number',

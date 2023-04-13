@@ -15,6 +15,8 @@ import { LogStackScreenProps } from 'src/routes/types';
 import { Route } from 'src/routes/const';
 import ImagePicker, { LogImage } from 'src/components/ImagePicker';
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView';
+import { useLog } from 'src/hooks/useLog';
+import { randomUUID } from 'expo-crypto';
 import SaveButton from './SaveButton';
 import TimelineTab from './TimelineTab';
 import InformationTab from './InformationTab';
@@ -36,7 +38,6 @@ export default function LogScreen({ navigation }: LogStackScreenProps<Route.LOG>
     control,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm<LogFieldTypes>({
     // TODO: Stage Profile
     defaultValues: {
@@ -45,43 +46,35 @@ export default function LogScreen({ navigation }: LogStackScreenProps<Route.LOG>
       [LogField.STAGE]: getDefaultThrownStage(),
     },
   });
+  const { createLog } = useLog();
 
-  const onSaveLog = useCallback(() => {
-    // handleSubmit();
+  const onSaveLog = useCallback(
+    (log: LogFieldTypes) => {
+      createLog?.({
+        ...log,
+        [LogField.LID]: randomUUID(),
+        [LogField.IMAGES]: images,
+        [LogField.TYPE]: type,
+        [LogField.STAGE]: stage,
+      });
+    },
+    [createLog, images, stage, type],
+  );
+  const onSetTitle = useCallback((newTitle: string) => setTitle(newTitle), []);
+  const onSetImages = useCallback((newImages: LogImage[]) => setImages(newImages), []);
+  const onSetType = useCallback((newType: LogType) => {
+    setType(newType);
+    // Reset Stages
+    switch (newType) {
+      case LogType.HANDBUILD:
+        setStage(getDefaultHandbuildStage());
+        break;
+      case LogType.THROW:
+      default:
+        setStage(getDefaultThrownStage());
+    }
   }, []);
-  const onSetImages = useCallback(
-    (newImages: LogImage[]) => {
-      setValue(LogField.IMAGES, newImages);
-      setImages(newImages);
-    },
-    [setValue],
-  );
-  const onSetType = useCallback(
-    (newType: LogType) => {
-      setValue(LogField.TYPE, newType);
-      setType(newType);
-
-      // Reset Stages
-      switch (newType) {
-        case LogType.HANDBUILD:
-          setValue(LogField.STAGE, getDefaultHandbuildStage());
-          setStage(getDefaultHandbuildStage());
-          break;
-        case LogType.THROW:
-        default:
-          setValue(LogField.STAGE, getDefaultThrownStage());
-          setStage(getDefaultThrownStage());
-      }
-    },
-    [setValue],
-  );
-  const onSetStage = useCallback(
-    (newStage: Stages) => {
-      setValue(LogField.STAGE, newStage);
-      setStage(newStage);
-    },
-    [setValue],
-  );
+  const onSetStage = useCallback((newStage: Stages) => setStage(newStage), []);
 
   // TABS
   const Timeline = useCallback(
@@ -92,10 +85,10 @@ export default function LogScreen({ navigation }: LogStackScreenProps<Route.LOG>
   const Information = useCallback(
     () => (
       <KeyboardAwareScrollView>
-        <InformationTab control={control} errors={errors} />
+        <InformationTab control={control} errors={errors} setTitle={onSetTitle} />
       </KeyboardAwareScrollView>
     ),
-    [control, errors],
+    [control, errors, onSetTitle],
   );
   const LOG_TABS = [
     {
@@ -112,7 +105,7 @@ export default function LogScreen({ navigation }: LogStackScreenProps<Route.LOG>
       headerProps={{
         onBack: () => navigation.pop(),
         title,
-        extra: <SaveButton onPress={handleSubmit((data) => console.log(data))} />,
+        extra: <SaveButton onPress={handleSubmit((data) => onSaveLog(data))} />,
       }}
     >
       <ImagePicker images={images} setImages={onSetImages} />

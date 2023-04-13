@@ -24,9 +24,10 @@ const styles = StyleSheet.create({
 
 interface InformationTabProps extends Partial<FormFieldProps> {
   errors: FieldErrors<LogFieldTypes>;
+  setTitle: (newTitle: string) => void;
 }
 
-export default function InformationTab({ control, errors }: InformationTabProps) {
+export default function InformationTab({ control, errors, setTitle }: InformationTabProps) {
   return (
     <View style={styles.container}>
       <View style={styles.fieldSmall}>
@@ -45,6 +46,9 @@ export default function InformationTab({ control, errors }: InformationTabProps)
         label={LOG_FIELD_TITLES[LogField.TITLE]}
         error={errors[LogField.TITLE]}
         placeholder="Insert title"
+        inputProps={{
+          onChange: setTitle,
+        }}
       />
       <FormField
         control={control}

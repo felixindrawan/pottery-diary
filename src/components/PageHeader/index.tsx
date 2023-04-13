@@ -6,6 +6,20 @@ import { Color, COLORS, Size } from 'src/utils/styles';
 import { Icon } from '../Icon';
 import View from '../View';
 
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    width: '100%',
+  },
+  title: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 30,
+  },
+});
+
 export interface HeaderTitleProps {
   onBack?: () => void;
   title: ReactNode;
@@ -23,7 +37,7 @@ export function HeaderTitle({ onBack, title, subtitle, extra }: HeaderTitleProps
           </TouchableOpacity>
         )}
         {!!(title || subtitle) && (
-          <Text size={Size.XL} style={{ fontWeight: 'bold' }}>
+          <Text size={Size.XL} numberOfLines={1} style={{ fontWeight: 'bold', maxWidth: 250 }}>
             {title}{' '}
             {subtitle && (
               <Text size={Size.LG} style={{ fontWeight: 'bold', color: COLORS[Color.NEUTRAL_50] }}>
@@ -37,17 +51,3 @@ export function HeaderTitle({ onBack, title, subtitle, extra }: HeaderTitleProps
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-    width: '100%',
-  },
-  title: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 30,
-  },
-});

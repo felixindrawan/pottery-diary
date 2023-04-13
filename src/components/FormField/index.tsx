@@ -74,7 +74,6 @@ export default function FormField({
           <TextInput
             value={value}
             keyboardType="numeric"
-            onChangeText={onChange}
             style={{
               ...styles.input,
               color: getColor(currentTheme),
@@ -83,6 +82,12 @@ export default function FormField({
             placeholder={placeholder}
             placeholderTextColor={getHexToAlpha(getColor(currentTheme), 0.4)}
             {...props}
+            onChangeText={(num: number) => {
+              if (props?.onChange) {
+                props.onChange(num);
+              }
+              onChange(num);
+            }}
           />
         );
       case FormInputType.TEXT:
@@ -91,7 +96,6 @@ export default function FormField({
         return (
           <TextInput
             value={value}
-            onChangeText={onChange}
             style={{
               ...styles.input,
               color: getColor(currentTheme),
@@ -100,6 +104,12 @@ export default function FormField({
             placeholder={placeholder}
             placeholderTextColor={getHexToAlpha(getColor(currentTheme), 0.4)}
             {...props}
+            onChangeText={(text: string) => {
+              if (props?.onChange) {
+                props.onChange(text);
+              }
+              onChange(text);
+            }}
           />
         );
     }
