@@ -16,7 +16,6 @@ import { Route } from 'src/routes/const';
 import ImagePicker, { LogImage } from 'src/components/ImagePicker';
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView';
 import { useLog } from 'src/hooks/useLog';
-import { randomUUID } from 'expo-crypto';
 import SaveButton from './SaveButton';
 import TimelineTab from './TimelineTab';
 import InformationTab from './InformationTab';
@@ -52,7 +51,6 @@ export default function LogScreen({ navigation }: LogStackScreenProps<Route.LOG>
     (log: LogFieldTypes) => {
       createLog?.({
         ...log,
-        [LogField.LID]: randomUUID(),
         [LogField.IMAGES]: images,
         [LogField.TYPE]: type,
         [LogField.STAGE]: stage,
