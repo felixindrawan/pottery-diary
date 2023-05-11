@@ -1,11 +1,11 @@
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Icon } from 'src/components/Icon';
+import Icon from 'src/components/Icon';
 
-interface SaveButtonProps {
+interface MoreButtonProps {
   onPress: () => void;
 }
 
-export default function SaveButton({ onPress }: SaveButtonProps) {
+export default function MoreButton({ onPress }: MoreButtonProps) {
   return (
     <TouchableOpacity
       style={{
@@ -15,7 +15,7 @@ export default function SaveButton({ onPress }: SaveButtonProps) {
       }}
       onPress={onPress}
     >
-      <Icon name="save" />
+      <Icon name="more-horiz" />
     </TouchableOpacity>
   );
 }

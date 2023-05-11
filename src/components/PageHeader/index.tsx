@@ -3,7 +3,7 @@ import { StyleSheet, StatusBar } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Text from 'src/components/Text';
 import { Color, COLORS, Size } from 'src/utils/styles';
-import { Icon } from '../Icon';
+import Icon from 'src/components/Icon';
 import View from '../View';
 
 const styles = StyleSheet.create({

@@ -1,19 +1,7 @@
-import moment from 'moment';
 import { reverseObject } from 'src/utils/transform/ObjectTransform';
 import { Dispatch } from 'react';
-import { StageProperties, getCurrentStage } from '../../../const';
-
-// Thrown consts
-export enum ThrownStage {
-  TODO = 'todo',
-  THROWN = 'thrown',
-  TRIMMED = 'trimmed',
-  BISQUED = 'bisqued',
-  GLAZED = 'glazed',
-  FINISHED = 'finished',
-}
-
-export type ThrownStages = Partial<Record<ThrownStage, StageProperties>>;
+import { StageProperties, Stages, ThrownStage } from 'src/lib/realm/const';
+import { getCurrentStage } from 'src/screens/LogScreen/const';
 
 export const THROWN_ORDER: Record<ThrownStage, number> = {
   [ThrownStage.TODO]: 0,
@@ -42,58 +30,45 @@ export const THROWN_FINISHED_LABEL: Record<ThrownStage, string> = {
   [ThrownStage.FINISHED]: 'Finished',
 };
 
-export function getDefaultThrownStage() {
-  return {
-    [ThrownStage.THROWN]: {
-      date: moment(),
+export function getDefaultThrownStage(): Stages[] {
+  return [
+    {
+      [StageProperties.DATE]: new Date(),
+      [StageProperties.STAGE]: ThrownStage.THROWN,
     },
-  };
+  ] as Stages[];
 }
 
-export function onThrownNextStage(
-  stages: ThrownStages,
-  setCurrentStage: Dispatch<ThrownStages>,
-): void {
+export function onThrownNextStage(stages: Stages[], setCurrentStage: Dispatch<Stages[]>): void {
   const currentStage = getCurrentStage(stages, THROWN_ORDER);
   if (currentStage === ThrownStage.FINISHED) {
     // Can't go next on FINISHED
   } else {
     const STAGE_ORDER = reverseObject(THROWN_ORDER);
-    setCurrentStage({
-      ...stages,
-      [STAGE_ORDER[THROWN_ORDER[currentStage] + 1]]: {
-        ...stages[STAGE_ORDER[THROWN_ORDER[currentStage] + 1]],
-        date: moment(),
-      },
-    });
+    const newStage = STAGE_ORDER[THROWN_ORDER[currentStage] + 1];
+    setCurrentStage([
+      ...stages.filter((s) => s.stage !== newStage),
+      {
+        [StageProperties.DATE]: new Date(),
+        [StageProperties.STAGE]: STAGE_ORDER[THROWN_ORDER[currentStage] + 1],
+      } as Stages,
+    ]);
   }
 }
 
-export function onThrownPreviousStage(
-  stages: ThrownStages,
-  setCurrentStage: Dispatch<ThrownStages>,
-): void {
+export function onThrownPreviousStage(stages: Stages[], setCurrentStage: Dispatch<Stages[]>): void {
   const currentStage = getCurrentStage(stages, THROWN_ORDER);
   if (currentStage === ThrownStage.TODO) {
     // Can't go prev on TODO
   } else if (currentStage === ThrownStage.THROWN) {
-    setCurrentStage({
-      ...stages,
-      [ThrownStage.THROWN]: {
-        ...stages[ThrownStage.THROWN],
-        date: undefined,
-      },
-      [ThrownStage.TODO]: {
-        date: stages?.[ThrownStage.TODO]?.date ?? moment(),
-      },
-    });
+    setCurrentStage([
+      ...stages.filter((s) => s.stage !== ThrownStage.THROWN && s.stage !== ThrownStage.TODO),
+      {
+        [StageProperties.DATE]: new Date(),
+        [StageProperties.STAGE]: ThrownStage.TODO,
+      } as Stages,
+    ]);
   } else {
-    setCurrentStage({
-      ...stages,
-      [currentStage]: {
-        ...stages[currentStage],
-        date: undefined,
-      },
-    });
+    setCurrentStage(stages.filter((s) => s.stage !== currentStage));
   }
 }

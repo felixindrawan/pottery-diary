@@ -8,13 +8,13 @@ interface IconProps {
   isActive?: boolean;
 }
 
-export function Icon({ name, size = 30, color, isActive = false }: IconProps) {
+export default function Icon({ name, size = 30, color, isActive = false }: IconProps) {
   const { currentTheme, currentPrimaryColor } = useTheme();
   return (
     <MaterialIcons
       name={name}
       size={size}
-      color={!!color ? color : isActive ? currentPrimaryColor : getColor(currentTheme)}
+      color={color || (isActive ? currentPrimaryColor : getColor(currentTheme))}
     />
   );
 }

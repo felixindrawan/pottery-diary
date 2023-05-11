@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { FieldErrors } from 'react-hook-form';
-import { LOG_FIELD_TITLES, LogField, LogFieldTypes } from 'src/screens/LogScreen/const';
+import { CLAY_TITLES, Clay, LOG_FIELD_TITLES } from 'src/screens/LogScreen/const';
 import FormField, { FormFieldProps, FormInputType } from 'src/components/FormField';
 import Text from 'src/components/Text';
 import View from 'src/components/View';
+import { LogField } from 'src/lib/realm/const';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,54 +22,53 @@ const styles = StyleSheet.create({
   },
 });
 
-interface InformationTabProps extends Partial<FormFieldProps> {
-  errors: FieldErrors<LogFieldTypes>;
-  setTitle: (newTitle: string) => void;
-}
+type InformationTabProps = Partial<FormFieldProps>;
 
-export default function InformationTab({ control, errors, setTitle }: InformationTabProps) {
+export default function InformationTab({ information, setInformation }: InformationTabProps) {
   return (
     <View style={styles.container}>
       <View style={styles.fieldSmall}>
         <FormField
-          control={control}
           name={LogField.NUMBER}
           label={LOG_FIELD_TITLES[LogField.NUMBER]}
-          error={errors[LogField.NUMBER]}
           inputType={FormInputType.NUMBER}
           placeholder="#"
+          value={information?.[LogField.NUMBER]}
+          onChange={(value) => setInformation(LogField.NUMBER, value)}
         />
       </View>
       <FormField
-        control={control}
         name={LogField.TITLE}
         label={LOG_FIELD_TITLES[LogField.TITLE]}
-        error={errors[LogField.TITLE]}
         placeholder="Insert title"
-        inputProps={{
-          onChange: setTitle,
-        }}
+        value={information?.[LogField.TITLE]}
+        onChange={(value) => setInformation(LogField.TITLE, value)}
       />
       <FormField
-        control={control}
         name={LogField.CLAY}
         label={LOG_FIELD_TITLES[LogField.CLAY]}
-        error={errors[LogField.CLAY]}
+        inputType={FormInputType.SELECT}
+        data={Object.values(Clay).map((clay) => ({
+          label: CLAY_TITLES[clay],
+          value: clay,
+        }))}
         placeholder="Insert clay(s)"
+        value={information?.[LogField.CLAY]}
+        onChange={(value) => setInformation(LogField.CLAY, value)}
       />
       <FormField
-        control={control}
         name={LogField.UNDERGLAZE}
         label={LOG_FIELD_TITLES[LogField.UNDERGLAZE]}
-        error={errors[LogField.UNDERGLAZE]}
         placeholder="Insert underglaze(s)"
+        value={information?.[LogField.UNDERGLAZE]}
+        onChange={(value) => setInformation(LogField.UNDERGLAZE, value)}
       />
       <FormField
-        control={control}
         name={LogField.GLAZE}
         label={LOG_FIELD_TITLES[LogField.GLAZE]}
-        error={errors[LogField.GLAZE]}
         placeholder="Insert glaze(s)"
+        value={information?.[LogField.GLAZE]}
+        onChange={(value) => setInformation(LogField.GLAZE, value)}
       />
       {/* TODO: Add measurements #28 */}
       <View>
@@ -77,49 +76,49 @@ export default function InformationTab({ control, errors, setTitle }: Informatio
         <View style={styles.fieldGroup}>
           <View style={styles.fieldSmall}>
             <FormField
-              control={control}
               name={LogField.WIDTH}
-              error={errors[LogField.WIDTH]}
               inputType={FormInputType.NUMBER}
               placeholder="Width"
+              value={information?.[LogField.WIDTH]}
+              onChange={(value) => setInformation(LogField.WIDTH, value)}
             />
           </View>
           <View style={styles.fieldSmall}>
             <FormField
-              control={control}
               name={LogField.LENGTH}
-              error={errors[LogField.LENGTH]}
               inputType={FormInputType.NUMBER}
               placeholder="Length"
+              value={information?.[LogField.LENGTH]}
+              onChange={(value) => setInformation(LogField.LENGTH, value)}
             />
           </View>
           <View style={styles.fieldSmall}>
             <FormField
-              control={control}
               name={LogField.HEIGHT}
-              error={errors[LogField.HEIGHT]}
               inputType={FormInputType.NUMBER}
               placeholder="Height"
+              value={information?.[LogField.HEIGHT]}
+              onChange={(value) => setInformation(LogField.HEIGHT, value)}
             />
           </View>
         </View>
       </View>
       <View style={styles.fieldSmall}>
         <FormField
-          control={control}
           name={LogField.WEIGHT}
           label={LOG_FIELD_TITLES[LogField.WEIGHT]}
-          error={errors[LogField.WEIGHT]}
           inputType={FormInputType.NUMBER}
           placeholder="Weight"
+          value={information?.[LogField.WEIGHT]}
+          onChange={(value) => setInformation(LogField.WEIGHT, value)}
         />
       </View>
       <FormField
-        control={control}
         name={LogField.TAGS}
         label={LOG_FIELD_TITLES[LogField.TAGS]}
-        error={errors[LogField.TAGS]}
         placeholder="Insert tag(s)"
+        value={information?.[LogField.TAGS]}
+        onChange={(value) => setInformation(LogField.TAGS, value)}
       />
     </View>
   );

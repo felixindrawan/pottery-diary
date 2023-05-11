@@ -1,19 +1,9 @@
-import moment from 'moment';
 import { Dispatch } from 'react';
 import { reverseObject } from 'src/utils/transform/ObjectTransform';
-import { StageProperties, getCurrentStage } from '../../../const';
+import { HandbuildStage, StageProperties, Stages } from 'src/lib/realm/const';
+import { getCurrentStage } from '../../../const';
 
 // Handbuild consts
-export enum HandbuildStage {
-  TODO = 'todo',
-  SCULPTED = 'sculpted',
-  BISQUED = 'bisqued',
-  GLAZED = 'glazed',
-  FINISHED = 'finished',
-}
-
-export type HandbuildStages = Partial<Record<HandbuildStage, StageProperties>>;
-
 export const HANDBUILD_ORDER: Record<HandbuildStage, number> = {
   [HandbuildStage.TODO]: 0,
   [HandbuildStage.SCULPTED]: 1,
@@ -38,58 +28,50 @@ export const HANDBUILD_FINISHED_LABEL: Record<HandbuildStage, string> = {
   [HandbuildStage.FINISHED]: 'Finished',
 };
 
-export function getDefaultHandbuildStage() {
-  return {
-    [HandbuildStage.SCULPTED]: {
-      date: moment(),
+export function getDefaultHandbuildStage(): Stages[] {
+  return [
+    {
+      [StageProperties.DATE]: new Date(),
+      [StageProperties.STAGE]: HandbuildStage.SCULPTED,
     },
-  };
+  ] as Stages[];
 }
 
-export function onHandbuildNextStage(
-  stages: HandbuildStages,
-  setCurrentStage: Dispatch<HandbuildStages>,
-): void {
+export function onHandbuildNextStage(stages: Stages[], setCurrentStage: Dispatch<Stages[]>): void {
   const currentStage = getCurrentStage(stages, HANDBUILD_ORDER);
   if (currentStage === HandbuildStage.FINISHED) {
     // Can't go next on FINISHED
   } else {
     const STAGE_ORDER = reverseObject(HANDBUILD_ORDER);
-    setCurrentStage({
-      ...stages,
-      [STAGE_ORDER[HANDBUILD_ORDER[currentStage] + 1]]: {
-        ...stages[STAGE_ORDER[HANDBUILD_ORDER[currentStage] + 1]],
-        date: moment(),
-      },
-    });
+    const newStage = STAGE_ORDER[HANDBUILD_ORDER[currentStage] + 1];
+    setCurrentStage([
+      ...stages.filter((s) => s.stage !== newStage),
+      {
+        [StageProperties.DATE]: new Date(),
+        [StageProperties.STAGE]: STAGE_ORDER[HANDBUILD_ORDER[currentStage] + 1],
+      } as Stages,
+    ]);
   }
 }
 
 export function onHandbuildPreviousStage(
-  stages: HandbuildStages,
-  setCurrentStage: Dispatch<HandbuildStages>,
+  stages: Stages[],
+  setCurrentStage: Dispatch<Stages[]>,
 ): void {
   const currentStage = getCurrentStage(stages, HANDBUILD_ORDER);
   if (currentStage === HandbuildStage.TODO) {
     // Can't go prev on TODO
   } else if (currentStage === HandbuildStage.SCULPTED) {
-    setCurrentStage({
-      ...stages,
-      [HandbuildStage.SCULPTED]: {
-        ...stages[HandbuildStage.SCULPTED],
-        date: undefined,
-      },
-      [HandbuildStage.TODO]: {
-        date: stages?.[HandbuildStage.TODO]?.date ?? moment(),
-      },
-    });
+    setCurrentStage([
+      ...stages.filter(
+        (s) => s.stage !== HandbuildStage.SCULPTED && s.stage !== HandbuildStage.TODO,
+      ),
+      {
+        [StageProperties.DATE]: new Date(),
+        [StageProperties.STAGE]: HandbuildStage.TODO,
+      } as Stages,
+    ]);
   } else {
-    setCurrentStage({
-      ...stages,
-      [currentStage]: {
-        ...stages[currentStage],
-        date: undefined,
-      },
-    });
+    setCurrentStage(stages.filter((s) => s.stage !== currentStage));
   }
 }

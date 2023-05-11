@@ -3,14 +3,14 @@ import { StatusBar } from 'expo-status-bar';
 import { APP_ENV, SENTRY_DSN } from '@env';
 import RootNavigator from 'src/routes/RootNavigator';
 import { ThemeProvider } from 'src/hooks/useTheme';
-import { LogProvider } from 'src/hooks/useLog';
+import { WithRealm } from './hooks/useRealm';
 
 // Error Handling by Sentry
 Sentry.init({
   dsn: SENTRY_DSN,
   // TODO: Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
   // We recommend adjusting this value in production.
-  tracesSampleRate: 1.0,
+  // tracesSampleRate: 1.0,
   enableInExpoDevelopment: true,
   debug: APP_ENV === 'dev',
 });
@@ -18,11 +18,11 @@ Sentry.init({
 function App() {
   return (
     <ThemeProvider>
-      <LogProvider>
+      <WithRealm>
         {/* eslint-disable-next-line react/style-prop-object */}
         <StatusBar style="auto" />
         <RootNavigator />
-      </LogProvider>
+      </WithRealm>
     </ThemeProvider>
   );
 }

@@ -1,14 +1,13 @@
 import View from 'src/components/View';
 import { StyleSheet } from 'react-native';
 import { Color, COLORS, getHexToAlpha, RADIUS, Size } from 'src/utils/styles';
-import { Icon } from 'src/components/Icon';
+import Icon from 'src/components/Icon';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Text from 'src/components/Text';
 import { useTheme } from 'src/hooks/useTheme';
-import moment from 'moment';
 import { formatMMDDYY } from 'src/utils/transform/DateTimeTransform';
-import { StageProperties } from '../../../const';
-import { THROWN_FINISHED_LABEL, ThrownStage } from './const';
+import { HandbuildStage, StageProperties, Stages, ThrownStage } from 'src/lib/realm/const';
+import { THROWN_FINISHED_LABEL } from './Profiles/Thrown/const';
 
 const styles = StyleSheet.create({
   stageContainer: {
@@ -54,18 +53,18 @@ const styles = StyleSheet.create({
 });
 
 interface StageProps {
-  stage: ThrownStage; // TODO: Stage Profile
-  stageProps: StageProperties; // TODO: Stage Profile
+  currentStage: Stages;
   onNextStage: () => void;
   onPreviousStage: () => void;
+  label: Record<ThrownStage, string> | Record<HandbuildStage, string>;
   current: boolean;
 }
 
 export default function Stage({
-  stage,
-  stageProps,
+  currentStage,
   onNextStage,
   onPreviousStage,
+  label = THROWN_FINISHED_LABEL,
   current = false,
 }: StageProps) {
   const { currentPrimaryColor } = useTheme();
@@ -122,15 +121,17 @@ export default function Stage({
         <TouchableOpacity style={styles.fieldButton}>
           <View style={styles.fieldTitle}>
             <Text size={Size.LG} style={{ color: COLORS[Color.NEUTRAL_10] }}>
-              {THROWN_FINISHED_LABEL[stage]}
+              {label[currentStage[StageProperties.STAGE]]}
             </Text>
             <Text size={Size.LG} style={{ color: COLORS[Color.NEUTRAL_10] }}>
-              {formatMMDDYY(stageProps?.date || moment())}
+              {formatMMDDYY(currentStage?.[StageProperties.DATE] || new Date())}
             </Text>
           </View>
-          {stageProps?.notes && (
+          {currentStage?.[StageProperties.NOTES] && (
             <View style={styles.fieldDesc}>
-              <Text style={{ color: COLORS[Color.NEUTRAL_10] }}>{stageProps.notes}</Text>
+              <Text style={{ color: COLORS[Color.NEUTRAL_10] }}>
+                {currentStage?.[StageProperties.NOTES]}
+              </Text>
             </View>
           )}
         </TouchableOpacity>
