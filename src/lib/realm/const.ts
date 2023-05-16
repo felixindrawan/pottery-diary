@@ -1,4 +1,5 @@
 import { Realm } from '@realm/react';
+import { FormInputType } from 'src/components/FormField';
 
 export enum LogField {
   LID = 'lid', // Log ID
@@ -11,7 +12,6 @@ export enum LogField {
   UNDERGLAZE = 'underglaze',
   GLAZE = 'glaze',
   TAGS = 'tags',
-  DIMENSIONS = 'dimensions',
   WEIGHT = 'weight',
   HEIGHT = 'height',
   LENGTH = 'length',
@@ -81,10 +81,104 @@ export type LogFieldTypes = {
   [LogField.GLAZE]?: string[];
   [LogField.TAGS]?: string[];
   [LogField.WEIGHT]?: number;
-  [LogField.DIMENSIONS]?: string;
   [LogField.HEIGHT]?: number;
   [LogField.LENGTH]?: number;
   [LogField.WIDTH]?: number;
   [LogField.CREATED_AT]?: Date;
   [LogField.UPDATED_AT]?: Date;
 };
+
+export enum Clay {
+  WHITE = 'white',
+  SPECKLED_WHITE = 'speckledWhite',
+  BROWN = 'brown',
+  SPECKLED_BROWN = 'speckledBrown',
+}
+
+export const CLAY_TITLES: Record<Clay, string> = {
+  [Clay.WHITE]: 'White',
+  [Clay.SPECKLED_WHITE]: 'Speckled White',
+  [Clay.BROWN]: 'Brown',
+  [Clay.SPECKLED_BROWN]: 'Speckled Brown',
+};
+
+export enum InformationField {
+  NAME = 'name',
+  TYPE = 'type',
+  PLACEHOLDER = 'placeholder',
+  DATA = 'data',
+}
+
+export const DEFAULT_INFORMATION_FIELDS: {
+  [InformationField.NAME]: LogField;
+  [InformationField.TYPE]: FormInputType;
+  [InformationField.PLACEHOLDER]: string;
+  [InformationField.DATA]?: { label: any; value: any }[];
+}[] = [
+  {
+    [InformationField.NAME]: LogField.NUMBER,
+    [InformationField.TYPE]: FormInputType.NUMBER,
+    [InformationField.PLACEHOLDER]: '#',
+  },
+  {
+    [InformationField.NAME]: LogField.TITLE,
+    [InformationField.TYPE]: FormInputType.TEXT,
+    [InformationField.PLACEHOLDER]: 'Insert title',
+  },
+  {
+    [InformationField.NAME]: LogField.CLAY,
+    [InformationField.TYPE]: FormInputType.SELECT,
+    [InformationField.PLACEHOLDER]: 'Insert clay(s)',
+    [InformationField.DATA]: Object.values(Clay).map((clay) => ({
+      label: CLAY_TITLES[clay],
+      value: clay,
+    })),
+  },
+  {
+    [InformationField.NAME]: LogField.UNDERGLAZE,
+    [InformationField.TYPE]: FormInputType.SELECT,
+    [InformationField.PLACEHOLDER]: 'Insert underglaze(s)',
+    [InformationField.DATA]: Object.values(Clay).map((clay) => ({
+      label: CLAY_TITLES[clay],
+      value: clay,
+    })),
+  },
+  {
+    [InformationField.NAME]: LogField.GLAZE,
+    [InformationField.TYPE]: FormInputType.SELECT,
+    [InformationField.PLACEHOLDER]: 'Insert glaze(s)',
+    [InformationField.DATA]: Object.values(Clay).map((clay) => ({
+      label: CLAY_TITLES[clay],
+      value: clay,
+    })),
+  },
+  {
+    [InformationField.NAME]: LogField.LENGTH,
+    [InformationField.TYPE]: FormInputType.NUMBER,
+    [InformationField.PLACEHOLDER]: 'Insert length',
+  },
+  {
+    [InformationField.NAME]: LogField.WIDTH,
+    [InformationField.TYPE]: FormInputType.NUMBER,
+    [InformationField.PLACEHOLDER]: 'Insert width',
+  },
+  {
+    [InformationField.NAME]: LogField.HEIGHT,
+    [InformationField.TYPE]: FormInputType.NUMBER,
+    [InformationField.PLACEHOLDER]: 'Insert height',
+  },
+  {
+    [InformationField.NAME]: LogField.WEIGHT,
+    [InformationField.TYPE]: FormInputType.NUMBER,
+    [InformationField.PLACEHOLDER]: 'Insert weight',
+  },
+  {
+    [InformationField.NAME]: LogField.TAGS,
+    [InformationField.TYPE]: FormInputType.SELECT,
+    [InformationField.PLACEHOLDER]: 'Insert tag(s)',
+    [InformationField.DATA]: Object.values(Clay).map((clay) => ({
+      label: CLAY_TITLES[clay],
+      value: clay,
+    })),
+  },
+];

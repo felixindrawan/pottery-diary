@@ -25,8 +25,6 @@ export default class LogFieldClass extends Realm.Object<LogFieldTypes> {
 
   [LogField.WEIGHT]?: number;
 
-  [LogField.DIMENSIONS]?: string;
-
   [LogField.HEIGHT]?: number;
 
   [LogField.LENGTH]?: number;

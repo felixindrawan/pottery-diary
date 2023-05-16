@@ -61,9 +61,7 @@ export default function FormField({
               labelField="label"
               valueField="value"
               {...otherProps}
-              onChange={(e: any) => {
-                onChange(e.value);
-              }}
+              onChange={(e: any) => onChange(e)}
               style={{
                 ...styles.input,
                 borderColor: currentPrimaryColor,
@@ -95,9 +93,7 @@ export default function FormField({
               labelField="label"
               valueField="value"
               {...otherProps}
-              onChange={(e: any) => {
-                onChange(e.value);
-              }}
+              onChange={(e: any) => onChange(e.value)}
               style={{
                 ...styles.input,
                 borderColor: currentPrimaryColor,
@@ -119,7 +115,8 @@ export default function FormField({
           // validation = { ...validation }; // TODO
           return (
             <TextInput
-              value={value}
+              value={`${value}`}
+              onChangeText={(text: string) => onChange(text)}
               keyboardType="numeric"
               style={{
                 ...styles.input,
@@ -130,7 +127,6 @@ export default function FormField({
               placeholder={placeholder}
               placeholderTextColor={getHexToAlpha(getColor(currentTheme), 0.4)}
               {...otherProps}
-              onChangeText={(text: string) => onChange(text)}
             />
           );
         case FormInputType.TEXT:
@@ -139,6 +135,7 @@ export default function FormField({
           return (
             <TextInput
               value={value}
+              onChangeText={onChange}
               style={{
                 ...styles.input,
                 color: getColor(currentTheme),
@@ -148,7 +145,6 @@ export default function FormField({
               placeholder={placeholder}
               placeholderTextColor={getHexToAlpha(getColor(currentTheme), 0.4)}
               {...otherProps}
-              onChangeText={onChange}
             />
           );
       }

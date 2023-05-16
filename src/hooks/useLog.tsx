@@ -1,9 +1,16 @@
 import { useCallback } from 'react';
-import { LogField, LogFieldTypes, LogType } from 'src/lib/realm/const';
+import {
+  DEFAULT_INFORMATION_FIELDS,
+  InformationField,
+  LogField,
+  LogFieldTypes,
+  LogType,
+} from 'src/lib/realm/const';
 import { getDefaultThrownStage } from 'src/screens/LogScreen/TimelineTab/Profiles/Thrown/const';
 import LogFieldClass from 'src/lib/realm/LogField';
 import { Realm } from '@realm/react';
 import { SchemaKey } from 'src/lib/realm/schema';
+import { FormInputType } from 'src/components/FormField';
 import { RealmLog, useObject, useRealm } from './useRealm';
 
 export const DEFAULT_TITLE = 'Untitled';
@@ -23,15 +30,16 @@ export function useLog(lid: string) {
   const log = useObject(LogFieldClass, new Realm.BSON.ObjectId(lid)) as LogFieldClass &
     Realm.Object<LogFieldClass, never>;
   const updateLog = useCallback(
-    (newLog: LogFieldClass) =>
+    (newLog: LogFieldClass) => {
       realm.write(() => {
-        Object.keys(newLog)
+        Object.keys(formatLog(newLog))
           .filter((k) => k !== LogField.LID)
           .forEach((key) => {
             if (log?.[key] !== newLog?.[key] && !!newLog?.[key]) log[key] = newLog[key];
           });
         log[LogField.UPDATED_AT] = new Date();
-      }),
+      });
+    },
     [log, realm],
   );
   return { log, updateLog };
@@ -47,5 +55,10 @@ export function createLog() {
 
 // TODO LOG FORMAT
 export function formatLog(log: LogFieldTypes) {
-  const formattedLog = {};
+  DEFAULT_INFORMATION_FIELDS.forEach((field) => {
+    if (field[InformationField.TYPE] === FormInputType.NUMBER) {
+      log[field[InformationField.NAME]] = Number(log[field[InformationField.NAME]]) ?? 0;
+    }
+  });
+  return log;
 }

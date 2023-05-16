@@ -30,7 +30,6 @@ export const LOG_FIELD_TITLES: Record<LogField, string> = {
   [LogField.GLAZE]: 'Glaze',
   [LogField.TAGS]: 'Tags',
   [LogField.WEIGHT]: 'Weight',
-  [LogField.DIMENSIONS]: 'Dimensions',
   [LogField.HEIGHT]: 'H',
   [LogField.LENGTH]: 'L',
   [LogField.WIDTH]: 'W',
@@ -55,17 +54,3 @@ export function getCurrentStage(
 ): Stages[StageProperties.STAGE] {
   return sortStages(stages, ORDER)[0].stage;
 }
-
-export enum Clay {
-  WHITE = 'white',
-  SPECKLED_WHITE = 'speckledWhite',
-  BROWN = 'brown',
-  SPECKLED_BROWN = 'speckledBrown',
-}
-
-export const CLAY_TITLES: Record<Clay, string> = {
-  [Clay.WHITE]: 'White',
-  [Clay.SPECKLED_WHITE]: 'Speckled White',
-  [Clay.BROWN]: 'Brown',
-  [Clay.SPECKLED_BROWN]: 'Speckled Brown',
-};
