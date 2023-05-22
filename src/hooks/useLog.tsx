@@ -11,7 +11,7 @@ import LogFieldClass from 'src/lib/realm/LogField';
 import { Realm } from '@realm/react';
 import { SchemaKey } from 'src/lib/realm/schema';
 import { FormInputType } from 'src/components/FormField';
-import { RealmLog, useObject, useRealm } from './useRealm';
+import { useObject, useRealm } from './useRealm';
 
 export const DEFAULT_TITLE = 'Untitled';
 
@@ -25,7 +25,7 @@ export function formatLog(log: LogFieldTypes) {
   return log;
 }
 
-const getDefaultLog = () => ({
+export const getDefaultLog = () => ({
   [LogField.LID]: new Realm.BSON.ObjectId(),
   [LogField.IMAGES]: [],
   [LogField.TITLE]: DEFAULT_TITLE,
@@ -53,12 +53,4 @@ export function useLog(lid: string) {
   );
   const deleteLog = useCallback(() => realm.write(() => realm.delete(log)), [log, realm]);
   return { log, updateLog, deleteLog };
-}
-
-export function createLog() {
-  const newLog = getDefaultLog();
-  RealmLog.write(() => {
-    RealmLog.create(SchemaKey.LOG, newLog);
-  });
-  return newLog.lid.toHexString();
 }

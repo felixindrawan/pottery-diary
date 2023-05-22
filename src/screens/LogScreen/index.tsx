@@ -92,19 +92,21 @@ export default function LogScreen({ route, navigation }: LogStackScreenProps<Rou
   );
   const onSetType = useCallback(
     (newType: LogType) => {
-      setType(newType);
-      updateLog({ ...log, [LogField.TYPE]: newType });
-      // Reset Stages
-      switch (newType) {
-        case LogType.HANDBUILD:
-          onSetStage(getDefaultHandbuildStage());
-          break;
-        case LogType.THROW:
-        default:
-          onSetStage(getDefaultThrownStage());
+      if (newType !== type) {
+        setType(newType);
+        updateLog({ ...log, [LogField.TYPE]: newType });
+        // Reset Stages
+        switch (newType) {
+          case LogType.HANDBUILD:
+            onSetStage(getDefaultHandbuildStage());
+            break;
+          case LogType.THROW:
+          default:
+            onSetStage(getDefaultThrownStage());
+        }
       }
     },
-    [log, onSetStage, updateLog],
+    [log, onSetStage, type, updateLog],
   );
   // TABS
   const Timeline = useCallback(

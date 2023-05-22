@@ -9,7 +9,6 @@ const realmConfig: Realm.Configuration = {
   schema: [LogFieldClass, LogImageClass, LogStageSchema],
 };
 
-export const RealmLog = new Realm(realmConfig);
 export const { RealmProvider, useRealm, useObject, useQuery } = createRealmContext(realmConfig);
 
 export function WithRealm({ children }: { children: ReactNode }) {
