@@ -15,6 +15,16 @@ import { RealmLog, useObject, useRealm } from './useRealm';
 
 export const DEFAULT_TITLE = 'Untitled';
 
+// TODO LOG FORMAT
+export function formatLog(log: LogFieldTypes) {
+  DEFAULT_INFORMATION_FIELDS.forEach((field) => {
+    if (field[InformationField.TYPE] === FormInputType.NUMBER) {
+      log[field[InformationField.NAME]] = Number(log[field[InformationField.NAME]]) ?? 0;
+    }
+  });
+  return log;
+}
+
 const getDefaultLog = () => ({
   [LogField.LID]: new Realm.BSON.ObjectId(),
   [LogField.IMAGES]: [],
@@ -32,17 +42,17 @@ export function useLog(lid: string) {
   const updateLog = useCallback(
     (newLog: LogFieldClass) => {
       realm.write(() => {
-        Object.keys(formatLog(newLog))
-          .filter((k) => k !== LogField.LID)
-          .forEach((key) => {
-            if (log?.[key] !== newLog?.[key] && !!newLog?.[key]) log[key] = newLog[key];
-          });
+        Object.keys(formatLog(newLog)).filter((k) => k !== LogField.LID);
+        // .forEach((key) => {
+        //   if (log?.[key] && !!newLog?.[key]) log[key] = newLog[key];
+        // });
         log[LogField.UPDATED_AT] = new Date();
       });
     },
     [log, realm],
   );
-  return { log, updateLog };
+  const deleteLog = useCallback(() => realm.write(() => realm.delete(log)), [log, realm]);
+  return { log, updateLog, deleteLog };
 }
 
 export function createLog() {
@@ -51,14 +61,4 @@ export function createLog() {
     RealmLog.create(SchemaKey.LOG, newLog);
   });
   return newLog.lid.toHexString();
-}
-
-// TODO LOG FORMAT
-export function formatLog(log: LogFieldTypes) {
-  DEFAULT_INFORMATION_FIELDS.forEach((field) => {
-    if (field[InformationField.TYPE] === FormInputType.NUMBER) {
-      log[field[InformationField.NAME]] = Number(log[field[InformationField.NAME]]) ?? 0;
-    }
-  });
-  return log;
 }

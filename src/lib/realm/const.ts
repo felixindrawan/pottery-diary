@@ -153,14 +153,14 @@ export const DEFAULT_INFORMATION_FIELDS: {
     })),
   },
   {
-    [InformationField.NAME]: LogField.LENGTH,
-    [InformationField.TYPE]: FormInputType.NUMBER,
-    [InformationField.PLACEHOLDER]: 'Insert length',
-  },
-  {
     [InformationField.NAME]: LogField.WIDTH,
     [InformationField.TYPE]: FormInputType.NUMBER,
     [InformationField.PLACEHOLDER]: 'Insert width',
+  },
+  {
+    [InformationField.NAME]: LogField.LENGTH,
+    [InformationField.TYPE]: FormInputType.NUMBER,
+    [InformationField.PLACEHOLDER]: 'Insert length',
   },
   {
     [InformationField.NAME]: LogField.HEIGHT,

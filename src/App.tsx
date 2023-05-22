@@ -1,5 +1,6 @@
 import * as Sentry from 'sentry-expo';
 import { StatusBar } from 'expo-status-bar';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { APP_ENV, SENTRY_DSN } from '@env';
 import RootNavigator from 'src/routes/RootNavigator';
 import { ThemeProvider } from 'src/hooks/useTheme';
@@ -18,11 +19,13 @@ Sentry.init({
 function App() {
   return (
     <ThemeProvider>
-      <WithRealm>
-        {/* eslint-disable-next-line react/style-prop-object */}
-        <StatusBar style="auto" />
-        <RootNavigator />
-      </WithRealm>
+      <ActionSheetProvider>
+        <WithRealm>
+          {/* eslint-disable-next-line react/style-prop-object */}
+          <StatusBar style="auto" />
+          <RootNavigator />
+        </WithRealm>
+      </ActionSheetProvider>
     </ThemeProvider>
   );
 }

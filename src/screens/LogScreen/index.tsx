@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Route } from 'src/routes/const';
 import {
@@ -23,6 +23,8 @@ import { COLORS, Color } from 'src/utils/styles';
 import Icon from 'src/components/Icon';
 import View from 'src/components/View';
 import { StyleSheet } from 'react-native';
+import { useActionSheet } from '@expo/react-native-action-sheet';
+import LogFieldClass from 'src/lib/realm/LogField';
 import TimelineTab from './TimelineTab';
 import InformationTab from './InformationTab';
 import { getDefaultThrownStage } from './TimelineTab/Profiles/Thrown/const';
@@ -49,33 +51,31 @@ const styles = StyleSheet.create({
 
 export default function LogScreen({ route, navigation }: LogStackScreenProps<Route.LOG>) {
   const { currentPrimaryColor } = useTheme();
-
-  const { log, updateLog } = useLog(route.params?.lid);
+  const { log, updateLog, deleteLog } = useLog(route.params.lid);
   const [images, setImages] = useState<LogImageType[]>(log?.images ?? []);
   const [type, setType] = useState<LogType>(log?.type ?? LogType.THROW);
   const [stage, setStage] = useState<Stages[]>(log?.stage ?? getDefaultThrownStage());
 
-  const [logInformation, setLogInformation] = useState<Partial<LogFieldTypes>>({
-    ...JSON.parse(JSON.stringify(log)),
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors, isDirty },
+  } = useForm<LogFieldTypes>({
+    // TODO: Stage Profile
+    defaultValues: JSON.parse(JSON.stringify(log)),
   });
-  const onSetInformation = useCallback(
-    (field: keyof LogFieldTypes, newValue: LogFieldTypes) => {
-      console.log(newValue, typeof newValue);
-      setLogInformation({ ...logInformation, [field]: newValue });
+  const onDeleteLog = useCallback(() => {
+    deleteLog();
+    navigation.pop();
+  }, [deleteLog, navigation]);
+  const onSaveInformation = useCallback(
+    (updatedLog: Partial<LogFieldClass>) => {
+      updateLog({ ...log, ...updatedLog });
+      reset({}, { keepValues: true });
     },
-    [logInformation],
+    [log, reset, updateLog],
   );
-  console.log(logInformation);
-  // const onSubmit = useCallback((data) => updateLog({ ...log, ...data }), [log, updateLog]);
-  // useEffect(() => {
-  //   const subscription = watch(() => handleSubmit(onSubmit)());
-  //   return () => subscription.unsubscribe();
-  // }, [handleSubmit, onSubmit, watch]);
-
-  // const onSetTitle = useCallback((newTitle: string) => setTitle(newTitle), []);
-  const onSaveInformation = useCallback(() => {
-    updateLog({ ...log, ...logInformation });
-  }, [log, logInformation]);
   const onSetImages = useCallback(
     (newImages: LogImageType[]) => {
       setImages(newImages);
@@ -97,12 +97,10 @@ export default function LogScreen({ route, navigation }: LogStackScreenProps<Rou
       // Reset Stages
       switch (newType) {
         case LogType.HANDBUILD:
-          // updateLog(getDefaultHandbuildStage());
           onSetStage(getDefaultHandbuildStage());
           break;
         case LogType.THROW:
         default:
-          // updateLog(getDefaultHandbuildStage());
           onSetStage(getDefaultThrownStage());
       }
     },
@@ -118,23 +116,21 @@ export default function LogScreen({ route, navigation }: LogStackScreenProps<Rou
     () => (
       <>
         <KeyboardAwareScrollView>
-          <InformationTab
-            information={logInformation}
-            setInformation={onSetInformation}
-            onSave={onSaveInformation}
-          />
+          <InformationTab control={control} errors={errors} />
         </KeyboardAwareScrollView>
-        <View style={styles.saveContainer}>
-          <TouchableOpacity
-            onPress={onSaveInformation}
-            style={{ ...styles.saveButton, backgroundColor: currentPrimaryColor }}
-          >
-            <Icon name="save" color={COLORS[Color.NEUTRAL_10]} />
-          </TouchableOpacity>
-        </View>
+        {isDirty && (
+          <View style={styles.saveContainer}>
+            <TouchableOpacity
+              onPress={handleSubmit(onSaveInformation)}
+              style={{ ...styles.saveButton, backgroundColor: currentPrimaryColor }}
+            >
+              <Icon name="save" color={COLORS[Color.NEUTRAL_10]} />
+            </TouchableOpacity>
+          </View>
+        )}
       </>
     ),
-    [currentPrimaryColor, logInformation, onSaveInformation, onSetInformation],
+    [control, currentPrimaryColor, errors, handleSubmit, isDirty, onSaveInformation],
   );
   const LOG_TABS = [
     {
@@ -146,12 +142,47 @@ export default function LogScreen({ route, navigation }: LogStackScreenProps<Rou
       component: Information,
     },
   ];
+
+  // More Options
+  const { showActionSheetWithOptions } = useActionSheet();
+  const onPressMore = () => {
+    //  TODO : SHARE
+    // const options = ['Share', 'Delete', 'Cancel'];
+    //  const destructiveButtonIndex = 1;
+    //  const cancelButtonIndex = 2;
+    const options = ['Delete', 'Cancel'];
+    const destructiveButtonIndex = 0;
+    const cancelButtonIndex = 1;
+    showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex,
+        destructiveButtonIndex,
+      },
+      (i?: number) => {
+        switch (i) {
+          case 0:
+            // TODO: Share
+            // TODO: Copy
+            break;
+          case destructiveButtonIndex:
+            // Delete
+            onDeleteLog();
+            break;
+          case cancelButtonIndex:
+          default:
+          // Canceled
+        }
+      },
+    );
+  };
+
   return (
     <ScreenView
       headerProps={{
         onBack: () => navigation.pop(),
-        title: logInformation?.[LogField.TITLE],
-        extra: <MoreButton onPress={() => {}} />,
+        title: log?.[LogField.TITLE],
+        extra: <MoreButton onPress={onPressMore} />,
       }}
     >
       <ImagePicker images={images} setImages={onSetImages} />

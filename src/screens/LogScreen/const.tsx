@@ -30,9 +30,9 @@ export const LOG_FIELD_TITLES: Record<LogField, string> = {
   [LogField.GLAZE]: 'Glaze',
   [LogField.TAGS]: 'Tags',
   [LogField.WEIGHT]: 'Weight',
-  [LogField.HEIGHT]: 'H',
-  [LogField.LENGTH]: 'L',
-  [LogField.WIDTH]: 'W',
+  [LogField.HEIGHT]: 'Height',
+  [LogField.LENGTH]: 'Length',
+  [LogField.WIDTH]: 'Width',
   [LogField.CREATED_AT]: 'Created At',
   [LogField.UPDATED_AT]: 'Updated At',
 };
