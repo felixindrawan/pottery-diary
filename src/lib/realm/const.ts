@@ -1,17 +1,16 @@
-import { Realm } from '@realm/react';
 import { FormInputType } from 'src/components/FormField';
 
 export enum LogField {
   LID = 'lid', // Log ID
   IMAGES = 'images',
   TYPE = 'type',
-  NUMBER = 'index',
+  INDEX = 'index',
   TITLE = 'title',
   STAGE = 'stage',
   CLAY = 'clay',
   UNDERGLAZE = 'underglaze',
   GLAZE = 'glaze',
-  TAGS = 'tags',
+  // TODO TAGS TAGS = 'tags',
   WEIGHT = 'weight',
   HEIGHT = 'height',
   LENGTH = 'length',
@@ -65,21 +64,21 @@ export enum LogImage {
 }
 
 export interface LogImageType {
-  [LogImage.ID]: Realm.BSON.ObjectId;
+  [LogImage.ID]: string;
   [LogImage.SOURCE]: string;
 }
 
 export type LogFieldTypes = {
-  [LogField.LID]: Realm.BSON.ObjectId;
+  [LogField.LID]: string;
   [LogField.IMAGES]?: LogImageType[];
-  [LogField.TYPE]: LogType;
-  [LogField.NUMBER]?: string;
+  [LogField.TYPE]?: LogType;
+  [LogField.INDEX]?: string;
   [LogField.TITLE]?: string;
-  [LogField.STAGE]: Stages[];
+  [LogField.STAGE]?: Stages[];
   [LogField.CLAY]?: string[];
   [LogField.UNDERGLAZE]?: string[];
   [LogField.GLAZE]?: string[];
-  [LogField.TAGS]?: string[];
+  // TODO TAGS [LogField.TAGS]?: string[];
   [LogField.WEIGHT]?: number;
   [LogField.HEIGHT]?: number;
   [LogField.LENGTH]?: number;
@@ -113,10 +112,11 @@ export const DEFAULT_INFORMATION_FIELDS: {
   [InformationField.NAME]: LogField;
   [InformationField.TYPE]: FormInputType;
   [InformationField.PLACEHOLDER]: string;
-  [InformationField.DATA]?: { label: any; value: any }[];
+  // TODO: unkown (?)
+  [InformationField.DATA]?: { label: unknown; value: unknown }[];
 }[] = [
   {
-    [InformationField.NAME]: LogField.NUMBER,
+    [InformationField.NAME]: LogField.INDEX,
     [InformationField.TYPE]: FormInputType.NUMBER,
     [InformationField.PLACEHOLDER]: '#',
   },
@@ -172,13 +172,13 @@ export const DEFAULT_INFORMATION_FIELDS: {
     [InformationField.TYPE]: FormInputType.NUMBER,
     [InformationField.PLACEHOLDER]: 'Insert weight',
   },
-  {
-    [InformationField.NAME]: LogField.TAGS,
-    [InformationField.TYPE]: FormInputType.SELECT,
-    [InformationField.PLACEHOLDER]: 'Insert tag(s)',
-    [InformationField.DATA]: Object.values(Clay).map((clay) => ({
-      label: CLAY_TITLES[clay],
-      value: clay,
-    })),
-  },
+  // TODO TAGS {
+  //   [InformationField.NAME]: LogField.TAGS,
+  //   [InformationField.TYPE]: FormInputType.SELECT,
+  //   [InformationField.PLACEHOLDER]: 'Insert tag(s)',
+  //   [InformationField.DATA]: Object.values(Clay).map((clay) => ({
+  //     label: CLAY_TITLES[clay],
+  //     value: clay,
+  //   })),
+  // },
 ];

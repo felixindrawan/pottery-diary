@@ -3,13 +3,13 @@ import { LogField, LogFieldTypes, LogImageType, LogType, Stages } from './const'
 import { LogSchema } from './schema';
 
 export default class LogFieldClass extends Realm.Object<LogFieldTypes> {
-  [LogField.LID]?: Realm.BSON.ObjectId;
+  [LogField.LID]!: Realm.BSON.ObjectId;
 
   [LogField.IMAGES]?: LogImageType[];
 
   [LogField.TYPE]?: LogType;
 
-  [LogField.NUMBER]?: string;
+  [LogField.INDEX]?: string;
 
   [LogField.TITLE]?: string;
 
@@ -21,7 +21,7 @@ export default class LogFieldClass extends Realm.Object<LogFieldTypes> {
 
   [LogField.GLAZE]?: string[];
 
-  [LogField.TAGS]?: string[];
+  // TODO TAGS [LogField.TAGS]?: string[];
 
   [LogField.WEIGHT]?: number;
 

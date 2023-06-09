@@ -24,7 +24,6 @@ import Icon from 'src/components/Icon';
 import View from 'src/components/View';
 import { StyleSheet } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
-import LogFieldClass from 'src/lib/realm/LogField';
 import TimelineTab from './TimelineTab';
 import InformationTab from './InformationTab';
 import { getDefaultThrownStage } from './TimelineTab/Profiles/Thrown/const';
@@ -63,14 +62,14 @@ export default function LogScreen({ route, navigation }: LogStackScreenProps<Rou
     formState: { errors, isDirty },
   } = useForm<LogFieldTypes>({
     // TODO: Stage Profile
-    defaultValues: JSON.parse(JSON.stringify(log)),
+    defaultValues: log,
   });
   const onDeleteLog = useCallback(() => {
     deleteLog();
     navigation.pop();
   }, [deleteLog, navigation]);
   const onSaveInformation = useCallback(
-    (updatedLog: Partial<LogFieldClass>) => {
+    (updatedLog: Partial<LogFieldTypes>) => {
       updateLog({ ...log, ...updatedLog });
       reset({}, { keepValues: true });
     },
