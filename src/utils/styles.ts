@@ -40,3 +40,4 @@ export const FONT_SIZES: Record<Size, number> = {
 };
 
 export const RADIUS = 10; // Global border radius
+export const INPUT_RADIUS = 4; // Inpuit border radius

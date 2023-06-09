@@ -1,13 +1,14 @@
 import View from 'src/components/View';
-import { StyleSheet } from 'react-native';
+import { useCallback, useState } from 'react';
+import { StyleSheet, Modal } from 'react-native';
 import { Color, COLORS, getHexToAlpha, RADIUS, Size } from 'src/utils/styles';
-import { Icon } from 'src/components/Icon';
+import Icon from 'src/components/Icon';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Text from 'src/components/Text';
 import { useTheme } from 'src/hooks/useTheme';
-import moment from 'moment';
 import { formatMMDDYY } from 'src/utils/transform/DateTimeTransform';
-import { ThrownStage, ThrownStageProperties, THROWN_FINISHED_LABEL } from '../../const';
+import { HandbuildStage, StageProperties, Stages, ThrownStage } from 'src/lib/realm/const';
+import { THROWN_FINISHED_LABEL } from './Profiles/Thrown/const';
 
 const styles = StyleSheet.create({
   stageContainer: {
@@ -50,26 +51,62 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingBottom: 10,
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modal: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
 });
 
 interface StageProps {
-  stage: ThrownStage; // TODO: Stage Profile
-  stageProps: ThrownStageProperties; // TODO: Stage Profile
+  currentStage: Stages;
   onNextStage: () => void;
   onPreviousStage: () => void;
+  label: Record<ThrownStage, string> | Record<HandbuildStage, string>;
   current: boolean;
 }
 
 export default function Stage({
-  stage,
-  stageProps,
+  currentStage,
   onNextStage,
   onPreviousStage,
+  label = THROWN_FINISHED_LABEL,
   current = false,
 }: StageProps) {
   const { currentPrimaryColor } = useTheme();
+  const [modalVisible, setModalVisible] = useState(false);
+  const onToggleModal = useCallback(() => setModalVisible(!modalVisible), [modalVisible]);
+
   return (
     <View style={styles.stageContainer}>
+      {/* Modal TODO */}
+      {/* <Modal visible={modalVisible} transparent onRequestClose={onToggleModal}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modal}>
+            <Text>Test</Text>
+            <TouchableOpacity onPress={onToggleModal}>
+              <Text>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal> */}
+      {/* Stage View */}
       <View
         style={{
           ...styles.buttonContainer,
@@ -118,18 +155,20 @@ export default function Stage({
           backgroundColor: current ? currentPrimaryColor : getHexToAlpha(currentPrimaryColor, 0.6),
         }}
       >
-        <TouchableOpacity style={styles.fieldButton}>
+        <TouchableOpacity style={styles.fieldButton} onPress={onToggleModal}>
           <View style={styles.fieldTitle}>
             <Text size={Size.LG} style={{ color: COLORS[Color.NEUTRAL_10] }}>
-              {THROWN_FINISHED_LABEL[stage]}
+              {label[currentStage[StageProperties.STAGE]]}
             </Text>
             <Text size={Size.LG} style={{ color: COLORS[Color.NEUTRAL_10] }}>
-              {formatMMDDYY(stageProps?.date || moment())}
+              {formatMMDDYY(currentStage?.[StageProperties.DATE] || new Date())}
             </Text>
           </View>
-          {stageProps?.notes && (
+          {currentStage?.[StageProperties.NOTES] && (
             <View style={styles.fieldDesc}>
-              <Text style={{ color: COLORS[Color.NEUTRAL_10] }}>{stageProps.notes}</Text>
+              <Text style={{ color: COLORS[Color.NEUTRAL_10] }}>
+                {currentStage?.[StageProperties.NOTES]}
+              </Text>
             </View>
           )}
         </TouchableOpacity>

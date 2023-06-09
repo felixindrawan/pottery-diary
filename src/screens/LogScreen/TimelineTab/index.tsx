@@ -1,88 +1,93 @@
-import { Dispatch } from 'react';
 import { StyleSheet } from 'react-native';
 import View from 'src/components/View';
-import {
-  getCurrentStage,
-  sortStages,
-  ThrownStage,
-  ThrownStages,
-  THROWN_ORDER,
-} from 'src/screens/LogScreen/const';
-import moment from 'moment';
-import { reverseObject } from 'src/utils/transform/ObjectTransform';
+import { sortStages, LOG_TYPES } from 'src/screens/LogScreen/const';
+import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView';
+import { RADIUS } from 'src/utils/styles';
+import { getColor, useTheme } from 'src/hooks/useTheme';
+import { Dispatch } from 'react';
+import { Dropdown } from 'react-native-element-dropdown';
+import { LogType, StageProperties, Stages } from 'src/lib/realm/const';
 import Stage from './Stage';
+import {
+  THROWN_FINISHED_LABEL,
+  THROWN_ORDER,
+  onThrownNextStage,
+  onThrownPreviousStage,
+} from './Profiles/Thrown/const';
+import {
+  HANDBUILD_FINISHED_LABEL,
+  HANDBUILD_ORDER,
+  onHandbuildNextStage,
+  onHandbuildPreviousStage,
+} from './Profiles/Handbuild/const';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 10,
   },
+  dropdownInputContainer: {
+    borderRadius: RADIUS,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+  },
 });
 
-// Helper Functions
-function onNextStage(stages: ThrownStages, setCurrentStage: Dispatch<ThrownStages>): void {
-  // TODO: Stage Profile
-  const currentStage = getCurrentStage(stages);
-  if (currentStage === ThrownStage.FINISHED) {
-    // Can't go next on FINISHED
-  } else {
-    const STAGE_ORDER = reverseObject(THROWN_ORDER);
-    setCurrentStage({
-      ...stages,
-      [STAGE_ORDER[THROWN_ORDER[currentStage] + 1]]: {
-        // @ts-ignore TODO
-        ...stages[STAGE_ORDER[THROWN_ORDER[currentStage] + 1]],
-        date: moment(),
-      },
-    });
-  }
-}
-
-function onPreviousStage(stages: ThrownStages, setCurrentStage: Dispatch<ThrownStages>): void {
-  // TODO: Stage Profile
-  const currentStage = getCurrentStage(stages);
-  if (currentStage === ThrownStage.TODO) {
-    // Can't go prev on TODO
-  } else if (currentStage === ThrownStage.THROWN) {
-    setCurrentStage({
-      ...stages,
-      [ThrownStage.THROWN]: {
-        ...stages[ThrownStage.THROWN],
-        date: undefined,
-      },
-      [ThrownStage.TODO]: {
-        date: stages?.[ThrownStage.TODO]?.date ?? moment(),
-      },
-    });
-  } else {
-    setCurrentStage({
-      ...stages,
-      [currentStage]: {
-        ...stages[currentStage],
-        date: undefined,
-      },
-    });
-  }
-}
-
 interface TimelineTabProps {
-  stage: ThrownStages;
-  setStage: Dispatch<ThrownStages>;
+  type: LogType;
+  setType: Dispatch<LogType>;
+  stages: Stages[];
+  setStages: (newStage: Stages[]) => void;
 }
 
-export default function TimelineTab({ stage, setStage }: TimelineTabProps) {
+export default function TimelineTab({ type, setType, stages, setStages }: TimelineTabProps) {
+  const { currentTheme, currentPrimaryColor } = useTheme();
   return (
     <View style={styles.container}>
-      {sortStages(stage).map((s, i) => (
-        <Stage
-          key={s}
-          stage={s}
-          stageProps={stage[s]}
-          current={i === 0}
-          onNextStage={() => onNextStage(stage, setStage)}
-          onPreviousStage={() => onPreviousStage(stage, setStage)}
+      <KeyboardAwareScrollView>
+        <Dropdown
+          value={type}
+          onChange={(item) => setType(item.value)}
+          labelField="label"
+          valueField="value"
+          data={Object.values(LogType).map((t) => ({
+            label: LOG_TYPES[t as LogType],
+            value: t,
+          }))}
+          style={{
+            ...styles.dropdownInputContainer,
+            borderWidth: 2,
+            borderColor: currentPrimaryColor,
+          }}
+          selectedTextStyle={{
+            color: getColor(currentTheme),
+          }}
+          itemContainerStyle={{
+            borderRadius: RADIUS,
+          }}
         />
-      ))}
+        {type === LogType.HANDBUILD
+          ? sortStages(stages, HANDBUILD_ORDER).map((s, i) => (
+              <Stage
+                key={s[StageProperties.STAGE]}
+                current={i === 0}
+                currentStage={s}
+                label={HANDBUILD_FINISHED_LABEL}
+                onNextStage={() => onHandbuildNextStage(stages, setStages)}
+                onPreviousStage={() => onHandbuildPreviousStage(stages, setStages)}
+              />
+            ))
+          : sortStages(stages, THROWN_ORDER).map((s, i) => (
+              <Stage
+                key={s[StageProperties.STAGE]}
+                current={i === 0}
+                currentStage={s}
+                label={THROWN_FINISHED_LABEL}
+                onNextStage={() => onThrownNextStage(stages, setStages)}
+                onPreviousStage={() => onThrownPreviousStage(stages, setStages)}
+              />
+            ))}
+      </KeyboardAwareScrollView>
     </View>
   );
 }

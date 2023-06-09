@@ -39,8 +39,7 @@ export default function MaterialTopTab({ TABS, LABELS }: MaterialTopTabProps) {
       }}
     >
       {TABS.map(({ name, component }) => (
-        // @ts-ignore TODO
-        <Tab.Screen key={name} name={name} component={component} />
+        <Tab.Screen key={name} name={name} component={component} /> // TODO
       ))}
     </Tab.Navigator>
   );

@@ -33,7 +33,7 @@ function MediaPermissionsProvider({ children }: { children: ReactNode }) {
       case PermissionStatus.DENIED:
         Alert.alert(
           'Insufficient Permissions',
-          'Please grant access to camera to use this feature',
+          'Please grant access to camera on Settings to use this feature',
         );
         response = await requestCameraPermission();
         return response.granted;
@@ -51,7 +51,7 @@ function MediaPermissionsProvider({ children }: { children: ReactNode }) {
       case PermissionStatus.DENIED:
         Alert.alert(
           'Insufficient Permissions',
-          'Please grant access to media library to use this feature',
+          'Please grant access to media library on Settings to use this feature',
         );
         response = await requestLibraryPermission();
         return response.granted;

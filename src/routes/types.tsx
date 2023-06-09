@@ -21,7 +21,7 @@ export type HomeStackParamList = {
   [Route.HOME]: undefined;
 };
 export type LogStackParamList = {
-  [Route.LOG]: undefined;
+  [Route.LOG]: { lid: string };
 };
 export type SettingsStackParamList = {
   [Route.SETTINGS]: undefined;

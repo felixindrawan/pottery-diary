@@ -8,6 +8,6 @@
 export function reverseObject<
   K extends string | number | symbol,
   T extends string | number | symbol,
->(object: Record<K, T>): { [V in T]: keyof T } {
+>(object: Record<K, T>): Record<T, K> {
   return Object.fromEntries(Object.entries(object).map(([key, value]) => [value, key]));
 }

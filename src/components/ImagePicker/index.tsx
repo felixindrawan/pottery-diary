@@ -2,10 +2,12 @@ import { Dispatch, useCallback } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import * as ExpoImagePicker from 'expo-image-picker';
-import { Icon } from 'src/components/Icon';
+import Icon from 'src/components/Icon';
 import { useMediaPermissions } from 'src/hooks/useMediaPermissions';
 import { useTheme } from 'src/hooks/useTheme';
 import { RADIUS } from 'src/utils/styles';
+import { LogImage, LogImageType } from 'src/lib/realm/const';
+import { Realm } from '@realm/react';
 
 const styles = StyleSheet.create({
   imagePickerContainer: {
@@ -19,8 +21,8 @@ const styles = StyleSheet.create({
 });
 
 interface ImagePickerProps {
-  images: string[];
-  setImages: Dispatch<string[]>;
+  images: LogImageType[];
+  setImages: Dispatch<LogImageType[]>;
 }
 
 export default function ImagePicker({ images, setImages }: ImagePickerProps) {
@@ -47,8 +49,14 @@ export default function ImagePicker({ images, setImages }: ImagePickerProps) {
       base64: true,
       quality: 1,
     });
-    if (result) {
-      setImages([...images, result?.assets?.[0]?.uri as string]);
+    if (result?.assets?.[0]?.uri) {
+      setImages([
+        ...images,
+        {
+          [LogImage.ID]: new Realm.BSON.ObjectId(),
+          [LogImage.SOURCE]: result.assets[0].uri as string,
+        },
+      ]);
     }
   }, [
     cameraPermissionStatus,
@@ -70,11 +78,11 @@ export default function ImagePicker({ images, setImages }: ImagePickerProps) {
       >
         <Icon name="photo-camera" color={currentPrimaryColor} size={50} />
       </TouchableOpacity>
-      {images.map((uri) => (
+      {images.map(({ source, id }) => (
         <Image
-          source={{ uri }}
+          source={{ uri: source }}
           style={{ ...styles.imagePickerContainer, marginLeft: 10 }}
-          key={uri}
+          key={id.toHexString()}
         />
       ))}
     </ScrollView>

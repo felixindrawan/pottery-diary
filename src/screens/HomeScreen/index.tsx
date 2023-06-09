@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import View from 'src/components/View';
 import { Route, ROUTES_TITLE } from 'src/routes/const';
 import ScreenView from 'src/components/PageView';
+import { HomeStackScreenProps } from 'src/routes/types';
 import SearchAndFilter from './SearchAndFilter';
 import Home from './Home';
 
@@ -11,7 +12,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }: HomeStackScreenProps<Route.HOME>) {
   return (
     <ScreenView
       headerProps={{
@@ -20,7 +21,7 @@ export default function HomeScreen() {
       }}
     >
       <View style={styles.container}>
-        <Home />
+        <Home navigation={navigation} />
       </View>
     </ScreenView>
   );

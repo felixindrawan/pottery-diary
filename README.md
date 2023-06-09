@@ -13,7 +13,7 @@
 1. Run
   ```bash
   yarn install
-  yarn start
+  yarn dev
   ```
 
 ## Contribute
